@@ -6,7 +6,7 @@
 #    By: saalarco <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/11/04 17:54:11 by saalarco         ###   ########.fr        #
+#    Updated: 2024/11/04 19:12:02 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,19 +18,25 @@ NAME		:= so_long
 CC		:= cc
 FLAGS    	:= -Wall -Wextra -Werror
 
+
+HEADERS	= -I ./includes -I ${LIBMLX}/include -I ${LIBFT} -I ${LIBGNL} -I ${LIBPRINTF}
+
+LIBMLX		= ./MLX42
 LIBFT		= ./libft
-LIBFPRINTF	= ./ft_printf
-LIBFGNL		= ./get_next_line
+LIBPRINTF	= ./ft_printf
+LIBGNL		= ./get_next_line
+LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LIBPRINTF}/libftprintf.a ${LIBGNL}/get_next_line.a
 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
+SRCS		= mlx_hello_world.c
                          
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
-	${CC} ${FLAGS} -c $< -o ${<:.c=.o}
+	${CC} ${FLAGS} -o $@ -c $< ${HEADERS}
 
 ################################################################################
 #                                  Makefile  objs                              #
@@ -45,59 +51,39 @@ BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
 RM		    := rm -f
 
-UNAME		:=	$(shell uname)
+all: libft libmlx libprintf libgnl ${NAME}
 
-ifeq ($(UNAME), Darwin)
-$(NAME): ${OBJS}
-			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			@ $(MAKE) -C mlx all >/dev/null 2>&1
-			@ cp ./mlx/libmlx.a .
-			$(CC) $(CFLAGS) -g3 -Ofast -o $(NAME) -Imlx $(OBJS) -Lmlx -lmlx -lm -framework OpenGL -framework AppKit
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
-endif
+libft:
+	@${MAKE} -C ${LIBFT}
 
-ifeq ($(UNAME), Linux)
-$(NAME): ${OBJS}
-			@echo "$(GREEN)Linux compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			@chmod 777 mlx_linux/configure
-			@ $(MAKE) -C mlx_linux all
-			$(CC) $(CFLAGS) -g3 -o $(NAME) $(OBJS) -Imlx_linux -Lmlx_linux -lmlx -lmlx_Linux -L/usr/lib -lXext -lX11 -lm
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
-endif
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-all:		${NAME}
+libprintf:
+	@${MAKE} -C ${LIBPRINTF}
 
-ifeq ($(UNAME), Darwin)
+libgnl:
+	@${MAKE} -C ${LIBGNL}
+
+${NAME}: ${OBJS}
+	@${CC} ${FLAGS} ${OBJS} ${LIBS} ${HEADERS} -o ${NAME}
+
 clean:
-			@ ${RM} *.o */*.o */*/*.o
-			@ rm -rf $(NAME).dSYM >/dev/null 2>&1
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
-endif
+	rm -rf ${LIBMLX}/build
+	make -C ${LIBFT} clean
+	make -C ${LIBPRINTF} clean
+	make -C ${LIBGNL} clean
+	@rm -rf $(OBJS)
 
-ifeq ($(UNAME), Linux)
-clean:
-			@ ${RM} *.o */*.o */*/*.o
-			@ rm -rf $(NAME).dSYM >/dev/null 2>&1
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
-endif
-
-
-ifeq ($(UNAME), Linux)
-fclean:		clean
-			@ ${RM} ${NAME}
-			@ $(MAKE) -C mlx_linux clean 
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
-endif
-
-ifeq ($(UNAME), Darwin)
-fclean:		clean
-			@ ${RM} ${NAME}
-			@ rm libmlx.a
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
-endif
-
-re:			fclean all
-
-.PHONY:		all clean fclean re
+fclean: clean
+	make -C ${LIBFT} fclean
+	make -C ${LIBPRINTF} fclean
+	make -C ${LIBGNL} fclean
+	@rm -rf $(OBJS)
 
 
+	@rm -rf $(NAME)
+
+re: clean all
+
+.PHONY: all clean fclean re libmlx libft libprintf libgnl
