@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saalarco <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/11/04 19:12:02 by saalarco         ###   ########.fr        #
+#    Updated: 2024/11/08 19:54:32 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LI
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		= mlx_hello_world.c
+SRCS		= so_long.c utils.c
                          
 OBJS        := $(SRCS:.c=.o)
 

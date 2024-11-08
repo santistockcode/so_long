@@ -10,6 +10,7 @@
 
 ## Project overview
 ## Tests
+https://github.com/gemartin99/So_long-Tester
 ### My own tests
 ### Francinette
 To test from github codespace use
@@ -20,6 +21,32 @@ To test from github codespace use
 ## Visual map
 ## Functions tree
 ## Theory
+#### https://github.com/42-Fundacion-Telefonica/MLX42
+Basics
+    initialization, building, link, debug
+Colors
+MLX42.h (functions)
+Hooks
+Images
+Input
+Shaders
+Textures
+Some history: XPM42
+https://www.xfree86.org/current/xpm.pdf
+
+
+#### make vs cmake
+
+#### X11
+
+#### GLFW
+
+#### why .ber maps?
+
+#### algoritmo para comprobar si el mapa es cerrado
+
+#### cómo estoy trabajando mlx y las otras funciones estoy haciendo relink? 
+
 ### Subject
 Objetivo: Este proyecto no solo te permitirá añadir una función bastante práctica a tu colección;
 también te hará aprender el increíble concepto de las variables estáticas en C.
