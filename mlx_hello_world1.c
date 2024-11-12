@@ -12,6 +12,15 @@ static void error(void)
 	exit(EXIT_FAILURE);
 }
 
+// void error_check()
+// {
+//     if (mlx_errno)
+//     {
+//         fprintf(stderr, "Error: %s\n", mlx_strerror(mlx_errno));
+//         exit(EXIT_FAILURE);
+//     }
+// }
+
 // static void check_file(const char* filepath)
 // {
 //     FILE* file = fopen(filepath, "r");

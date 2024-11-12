@@ -22,9 +22,18 @@ To test from github codespace use
 ## Functions tree
 ## Theory
 #### https://github.com/42-Fundacion-Telefonica/MLX42
-Basics
+##### Basics
     initialization, building, link, debug
-Colors
+##### Colors
+Colors are often represented in hexadecimal because it allows for a compact representation of the red, green, blue, and alpha (RGBA) components of a color. For example, the color red with full opacity can be represented as 0xFF0000FF:
+
+    0xFF (red component)
+    0x00 (green component)
+    0x00 (blue component)
+    0xFF (alpha component)
+Bytes and Bitwise Operations
+In the context of setting pixel colors, each color component (red, green, blue, alpha) is typically one byte (8 bits). A 32-bit integer (4 bytes) can hold all four components. Bitwise operations are used to extract and set these components.
+
 MLX42.h (functions)
 Hooks
 Images
