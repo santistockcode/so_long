@@ -8,6 +8,7 @@
 #define WIDTH 512
 #define HEIGHT 512
 
+// BEST ERROR CALLBACK STRUCTURE
 void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
