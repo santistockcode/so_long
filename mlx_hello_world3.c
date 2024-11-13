@@ -8,6 +8,12 @@
 #define WIDTH 512
 #define HEIGHT 512
 
+void error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Error: %s\n", description);
+}
+
+
 void set_pixel_color(mlx_image_t* img, int x, int y, uint32_t color)
 {
     if (x < 0 || x >= (int) img->width || y < 0 || y >= (int) img->height)
