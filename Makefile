@@ -37,7 +37,7 @@ LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LI
 ################################################################################
 
 # SRCS		= so_long.c utils.c
-SRCS		= mlx_hello_world0.c
+SRCS		= ./hello_world_mlx/mlx_hello_world0.c
                          
 OBJS        := $(SRCS:.c=.o)
 
