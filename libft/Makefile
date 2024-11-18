@@ -14,13 +14,22 @@
 
 NAME = libft.a
 CC = gcc
-MKDIR = /usr/bin/mkdir
 CFLAGS = -Wall -Werror -Wextra
 AR := ar -rc
 OBJDIR := objects/
 RM := rm -rf
 HEADER = ./
 SILENT = @
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+    MKDIR := /usr/bin/mkdir -p
+else ifeq ($(UNAME_S),Darwin)
+    MKDIR := /bin/mkdir -p
+else
+    MKDIR := mkdir -p
+endif
+
 
 # ******** COLORES ********
 

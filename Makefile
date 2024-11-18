@@ -20,6 +20,12 @@ FLAGS    	:= -Wall -Wextra -Werror
 
 HEADERS	= -I ./includes -I ${LIBMLX}/include -I ${LIBFT} -I ${LIBGNL} -I ${LIBPRINTF}
 
+ifdef VERBOSE
+    SILENT :=
+else
+    SILENT := @
+endif
+
 LIBMLX		= ./MLX42
 LIBFT		= ./libft
 LIBPRINTF	= ./ft_printf
@@ -31,7 +37,7 @@ LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LI
 ################################################################################
 
 # SRCS		= so_long.c utils.c
-SRCS		= mlx_hello_world2.c
+SRCS		= mlx_hello_world0.c
                          
 OBJS        := $(SRCS:.c=.o)
 
