@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 19:29:53 by saalarco          #+#    #+#             */
-/*   Updated: 2024/11/01 12:25:45 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:55:09 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*update_buffer(char *bff)
 
 	if (ft_strchr(bff, '\n'))
 	{
-		fin_bff_length = ft_strlen(ft_strchr(bff, '\n'));
+		fin_bff_length = ft_strlens(ft_strchr(bff, '\n'));
 		ft_memmove(bff, ft_strchr(bff, '\n') + 1, fin_bff_length);
 		bff[fin_bff_length] = 0;
 	}
@@ -92,8 +92,8 @@ char	*extract_line(char *buffer)
 	}
 	else
 	{
-		line = malloc(ft_strlen(buffer) + 1);
-		ft_memmove(line, buffer, ft_strlen(buffer) + 1);
+		line = malloc(ft_strlens(buffer) + 1);
+		ft_memmove(line, buffer, ft_strlens(buffer) + 1);
 	}
 	return (line);
 }

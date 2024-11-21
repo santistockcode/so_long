@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/11/13 19:00:51 by saalarco         ###   ########.fr        #
+#    Updated: 2024/11/21 19:59:44 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 NAME		:= so_long
 CC		:= cc
-FLAGS    	:= -Wall -Wextra -Werror
+FLAGS    	:= -g -Wall -Wextra -Werror
 
 HEADERS	= -I ./includes -I ${LIBMLX}/include -I ${LIBFT} -I ${LIBGNL} -I ${LIBPRINTF}
 
@@ -36,8 +36,8 @@ LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LI
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-# SRCS		= so_long.c utils.c
-SRCS		= ./hello_world_mlx/mlx_hello_world0.c
+SRCS		= so_long.c argument_valid.c
+# SRCS		= ./hello_world_mlx/mlx_hello_world0.c
                          
 OBJS        := $(SRCS:.c=.o)
 

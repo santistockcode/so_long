@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 19:38:03 by saalarco          #+#    #+#             */
-/*   Updated: 2024/10/29 19:34:47 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:55:20 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 char	*get_next_line(int fd);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memmove(void *dst, const void *src, size_t len);
-size_t	ft_strlen(const char *s);
+size_t	ft_strlens(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 

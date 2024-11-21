@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 19:34:09 by saalarco          #+#    #+#             */
-/*   Updated: 2024/10/25 19:36:52 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:55:57 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strjoin(char const *str1, char const *str2)
 	i = 0;
 	if (str1 == NULL && str2 == NULL)
 		return (NULL);
-	r_join = (char *)malloc((ft_strlen(str1) + ft_strlen(str2) + 1)
+	r_join = (char *)malloc((ft_strlens(str1) + ft_strlens(str2) + 1)
 			* sizeof(char));
 	if (r_join == NULL)
 		return (NULL);
@@ -59,7 +59,7 @@ char	*ft_strjoin(char const *str1, char const *str2)
 }
 
 // ft_strlen but checks for !s
-size_t	ft_strlen(const char *s)
+size_t	ft_strlens(const char *s)
 {
 	size_t	c;
 
