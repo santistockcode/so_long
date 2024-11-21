@@ -2,6 +2,7 @@
 #include "so_long.h"
 
 int is_extension_correct(char *file);
+int is_map_empty(fd file);
 
 int is_extension_correct(char *file)
 {
@@ -18,4 +19,9 @@ int is_extension_correct(char *file)
     }
     else 
         return (FALSE);
+}
+
+int is_map_empty(fd file)
+{
+
 }

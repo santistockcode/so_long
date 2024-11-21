@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:15:16 by saalarco          #+#    #+#             */
-/*   Updated: 2024/11/08 20:00:30 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:05:41 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char **argv)
 	if (is_extension_correct(argv[1]))
 		return (ft_printf(ERROR_FILE));
 	// check map is valid
-	// render map
+	// render map until close 
+	// do shit
 	// cosas mlx
 	return (1);
 }
