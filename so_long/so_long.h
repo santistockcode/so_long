@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:11:26 by saalarco          #+#    #+#             */
-/*   Updated: 2024/11/21 20:17:44 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:22:14 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,19 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-# define ERROR_USAGE "Error: Incorrect number of parameters"
-# define ERROR_FILE "Error: Incorrect extension for file name"
+# define ERROR_USAGE "Error: Incorrect extension or number of params"
 # define ERROR_OPEN "Error: Failure to open file"
 # define ERROR_EMPTY "Error: empty file"
+# define ERROR_FETCH "Error: problem fetching map"
+# define ERROR_EXTENSION "Error: map extension incorrect"
+# define ERROR_MEMORY "Error: malloc failed"
 # define FALSE		0
 # define TRUE		1
 
 int is_extension_correct(char *file);
-int is_map_empty(char *file);
+int is_map_empty(char *line, int fd);
+char **fetch_map(char *file);
+void fetch_map_line(char **map, char *line, int h);
 
 
 #endif

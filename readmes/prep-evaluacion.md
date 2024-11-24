@@ -9,6 +9,7 @@
 8. [Further study](#further-study)
 
 ## Project overview
+Proyecto visual, para lucirse.
 ## Tests
 https://github.com/gemartin99/So_long-Tester
 ### My own tests
