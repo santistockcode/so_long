@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/11/21 19:59:44 by saalarco         ###   ########.fr        #
+#    Updated: 2024/11/24 19:12:51 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,13 +30,15 @@ LIBMLX		= ./MLX42
 LIBFT		= ./libft
 LIBPRINTF	= ./ft_printf
 LIBGNL		= ./get_next_line
-LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LIBPRINTF}/libftprintf.a ${LIBGNL}/get_next_line.a
+# LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LIBPRINTF}/libftprintf.a ${LIBGNL}/get_next_line.a
+LIBS = ${LIBFT}/libft.a ${LIBPRINTF}/libftprintf.a ${LIBGNL}/get_next_line.a
+
 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		= so_long.c argument_valid.c
+SRCS		= so_long.c arguments_valid.c argument_content_valid.c
 # SRCS		= ./hello_world_mlx/mlx_hello_world0.c
                          
 OBJS        := $(SRCS:.c=.o)
