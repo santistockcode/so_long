@@ -8,13 +8,14 @@ void measure_map_and_alloc(char **file);
 
 int	line_problem(char *line)
 {
-	if (line == NULL)
+	if (line == NULL) // end of line or error
 	{
 		return (TRUE);
 	}
-	if (line[0] == '\0')
+	if (line[0] == '\0') // se libera
 	{
 		free(line);
+		line = NULL;
 		return (TRUE);
 	}
 	return (FALSE);
@@ -71,6 +72,8 @@ int measure_height(int fd)
 		return (0);
 	while (line != NULL && *line != '\0')
 	{
+		// Reservo linea tal que int lo que sea
+		// mientras haya height pues le meto un 
 		free(line);
 		height++;
 		line = get_next_line(fd);

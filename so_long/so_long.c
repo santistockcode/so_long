@@ -6,30 +6,44 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:15:16 by saalarco          #+#    #+#             */
-/*   Updated: 2024/11/24 19:01:39 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:30:58 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+void initialize_map(Map *map)
+{
+	map->height = 0;
+	map->width = 0;
+	map->map = NULL;
+}
+
 
 int	main(int argc, char **argv)
 {
-	// char	**map;
+	Map game_map;
 
-	// correct extension
 	if (argc <= 1 || !is_extension_correct(argv[1]))
-		return (ft_printf(ERROR_USAGE));
+	{
+		return(perror(ERROR_USAGE), 1);
+	}
+	// initialize variables for map
+	initialize_map(&game_map);
 
-	//render map until close
-	measure_map_and_alloc(&argv[1]);
+	// open file measure map close file, check for errors
+	measure_map(argv[1], &game_map);
+
+	// open file fetch map into memory close map, check for errors
+	// have_map(argv[1], &game_map);
+
+	// print hurray 
 
 	// printf("Map after fetch:\n");
     // for (int i = 0; i < 12; i++) {
     //     printf("%s\n", map[i]);
     // }
-	
-	// do shit
+
 	// cosas mlx
 	return (1);
 }

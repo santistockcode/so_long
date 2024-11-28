@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:11:26 by saalarco          #+#    #+#             */
-/*   Updated: 2024/11/24 19:01:11 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:12:22 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,13 @@
 # define FALSE		0
 # define TRUE		1
 
+typedef struct {
+    int height;
+    int width;
+    char **map;
+} Map;
+
 int is_extension_correct(char *file);
-int measure_height(int fd);
-void measure_map_and_alloc(char **file);
+void print_error(const char *error_message);
 
 #endif

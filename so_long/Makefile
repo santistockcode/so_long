@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/11/24 19:12:51 by saalarco         ###   ########.fr        #
+#    Updated: 2024/11/28 18:31:21 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ LIBS = ${LIBFT}/libft.a ${LIBPRINTF}/libftprintf.a ${LIBGNL}/get_next_line.a
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		= so_long.c arguments_valid.c argument_content_valid.c
+SRCS		= so_long.c arguments_valid.c
 # SRCS		= ./hello_world_mlx/mlx_hello_world0.c
                          
 OBJS        := $(SRCS:.c=.o)

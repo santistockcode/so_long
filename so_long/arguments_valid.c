@@ -1,5 +1,6 @@
 #include "so_long.h"
 
+// Function to check file extension
 int is_extension_correct(char *file)
 {
     int len;
