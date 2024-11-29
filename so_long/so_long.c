@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:15:16 by saalarco          #+#    #+#             */
-/*   Updated: 2024/11/28 18:30:58 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:44:26 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ int	main(int argc, char **argv)
 	initialize_map(&game_map);
 
 	// open file measure map close file, check for errors
-	measure_map(argv[1], &game_map);
+	if (measure_map(argv[1], &game_map) == -1)
+		return(ft_printf("measure_map %s: %s\n", argv[1], strerror(errno)), 1);
 
 	// open file fetch map into memory close map, check for errors
-	// have_map(argv[1], &game_map);
+	//have_map(argv[1], &game_map);
 
 	// print hurray 
 

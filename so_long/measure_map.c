@@ -3,19 +3,22 @@
 
 // int	is_no_line(char *line, int fd);
 // void	fetch_map_line(char **map, char *line, int h, size_t row);
-int measure_height(int fd);
+int measure_height(int fd, char *line);
 void measure_map_and_alloc(char **file);
+int	line_problem(char *line, int fd);
 
-int	line_problem(char *line)
+int	line_problem(char *line, int fd)
 {
 	if (line == NULL) // end of line or error
 	{
+		close(fd);
 		return (TRUE);
 	}
 	if (line[0] == '\0') // se libera
 	{
 		free(line);
 		line = NULL;
+		close(fd);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -61,45 +64,68 @@ int	line_problem(char *line)
 // 	}
 // }
 
-int measure_height(int fd)
-{
-	char *line;
-	int height;
+// int measure_height(int fd)
+// {
+// 	char *line;
+// 	int height;
 
+// 	height = 0;
+// 	line = get_next_line(fd);
+// 	if (line_problem(line))
+// 		return (0);
+// 	while (line != NULL && *line != '\0')
+// 	{
+// 		// Reservo linea tal que int lo que sea
+// 		// mientras haya height pues le meto un 
+// 		free(line);
+// 		height++;
+// 		line = get_next_line(fd);
+// 	}
+// 	return height;
+// }
+
+// measure heigth
+// measure width
+
+int measure_map(char *file_name, Map *map)
+{
+	int fd;
+	int height;
+	size_t width;
+	char *line;
+
+	errno = EIO;
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+		return(perror(ERROR_OPEN), -1);
 	height = 0;
+	width = 0;
 	line = get_next_line(fd);
-	if (line_problem(line))
-		return (0);
+	if (line_problem(line, fd))
+		return(perror(ERROR_IRREGULAR), -1);
 	while (line != NULL && *line != '\0')
 	{
-		// Reservo linea tal que int lo que sea
-		// mientras haya height pues le meto un 
-		free(line);
+		if (line_problem(line, fd))
+			return(perror(ERROR_IRREGULAR), -1);
+
+		/*
+		if (width == 0)
+			width = ft_strlen(line);
+		else if (ft_strlen(line) != width)
+			return(perror(ERROR_EXTENSION), -1);
+		*/
 		height++;
+		free(line);
 		line = get_next_line(fd);
 	}
-	return height;
+	free(line);
+	close(fd);
+
+	map->height = height;
+	map->width = width;
+	return (0);
 }
 
-void measure_map_and_alloc(char **file)
-{
-	char **map;
-	int fd;
-	size_t column_size;
-	size_t row_size;
-	char *line;
+// breakpoint set --file measure_map.c --line 115
+// watch examples on how to use next line
 
-	fd = open(*file, O_RDONLY);
-	if (fd == -1)
-	{
-		perror(ERROR_OPEN);
-		// return (NULL);
-	}
-	column_size = measure_height(fd);
-	if (column_size == 0)
-	{
-		close(fd);
-		return;
-	}
-	// return (map);
-}
