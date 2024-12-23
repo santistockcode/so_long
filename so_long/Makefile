@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/11/29 07:34:16 by saalarco         ###   ########.fr        #
+#    Updated: 2024/12/23 12:27:04 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME		:= so_long
 CC		:= cc
 FLAGS    	:= -g -Wall -Wextra -Werror
 
-HEADERS	= -I ./includes -I ${LIBMLX}/include -I ${LIBFT} -I ${LIBGNL} -I ${LIBPRINTF}
+HEADERS	= -I ./include -I ${LIBMLX}/include
 
 ifdef VERBOSE
     SILENT :=
@@ -28,17 +28,18 @@ endif
 
 LIBMLX		= ./MLX42
 LIBFT		= ./libft
-LIBPRINTF	= ./ft_printf
-LIBGNL		= ./get_next_line
-# LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a ${LIBPRINTF}/libftprintf.a ${LIBGNL}/get_next_line.a
-LIBS = ${LIBFT}/libft.a ${LIBPRINTF}/libftprintf.a ${LIBGNL}/get_next_line.a
+
+# LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a 
+LIBS = ${LIBFT}/libft.a
 
 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		= so_long.c arguments_valid.c measure_map.c
+SRCS		= src/so_long.c \
+	src/arguments_valid.c
+
 # SRCS		= ./hello_world_mlx/mlx_hello_world0.c
                          
 OBJS        := $(SRCS:.c=.o)
@@ -59,7 +60,7 @@ BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
 RM		    := rm -f
 
-all: libft libmlx libprintf libgnl ${NAME}
+all: libft libmlx ${NAME}
 
 libft:
 	@${MAKE} -C ${LIBFT}
@@ -67,31 +68,19 @@ libft:
 libmlx:
 	@cmake -DDEBUG=1 $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
-libprintf:
-	@${MAKE} -C ${LIBPRINTF}
-
-libgnl:
-	@${MAKE} -C ${LIBGNL}
-
 ${NAME}: ${OBJS}
 	@${CC} ${FLAGS} ${OBJS} ${LIBS} ${HEADERS} -o ${NAME}
 
 clean:
 	rm -rf ${LIBMLX}/build
 	make -C ${LIBFT} clean
-	make -C ${LIBPRINTF} clean
-	make -C ${LIBGNL} clean
 	@rm -rf $(OBJS)
 
 fclean: clean
 	make -C ${LIBFT} fclean
-	make -C ${LIBPRINTF} fclean
-	make -C ${LIBGNL} fclean
 	@rm -rf $(OBJS)
-
-
 	@rm -rf $(NAME)
 
 re: clean all
 
-.PHONY: all clean fclean re libmlx libft libprintf libgnl
+.PHONY: all clean fclean re libmlx libft
