@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:52:43 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/18 19:04:01 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:29:00 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,56 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		*dst++ = *src++;
 		count++;
 	}
-	if (*dst)
+	if (count < dstsize)
 	{
 		*dst = '\0';
 	}
 	return (lens);
 }
+
+// size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	if (dstsize == 0)
+// 	{
+// 		while (src[i])
+// 			i++;
+// 		return (i);
+// 	}
+// 	while (i < dstsize - 1 && src[i] != '\0')
+// 	{
+// 		dst[i] = src[i];
+// 		i++;
+// 	}
+// 	if (i < dstsize)
+// 		dst[i] = '\0';
+// 	while (src[i] != '\0')
+// 		i++;
+// 	return (i);
+// }
+
+// size_t  ft_strlcpy(char *dst, const char *src, size_t size)
+// {
+//     size_t i;
+//     size_t src_len;
+
+//     if (!dst || !src)
+//         return (0);
+//     src_len = ft_strlen(src);
+//     if (size == 0)
+//         return (src_len);
+//     i = 0;
+//     while (src[i] && i < (size - 1))
+//     {
+//         dst[i] = src[i];
+//         i++;
+//     }
+//     dst[i] = '\0';
+//     return (src_len);
+// }
+
 /*
 If dstsize == 0 no se añade nada ni se añade '\0'
 && *src es para que no machaque contenido si dstsize es mayor que src size

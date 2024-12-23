@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:05:01 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/23 12:05:52 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:42:33 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <unistd.h>
+
+# include "ft_printf.h"
 # include "lists.h"
 # include "get_next_line.h"
-# include "ft_printf.h"
 # include "get_file.h"
 
 int		ft_isalpha(int c);

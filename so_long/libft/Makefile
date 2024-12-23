@@ -117,7 +117,9 @@ run_tests: test
 
 # If you want a separate rule to run Valgrind on your tests:
 valgrind: test
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(TEST_GET_FILE_BIN)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_GET_FILE_BIN)
+
+# Test from codespaces: /home/codespace/francinette/tester.sh -in --strict
 
 clean:
 	rm -rf $(OBJ_DIR)

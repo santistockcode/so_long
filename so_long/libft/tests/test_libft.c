@@ -208,9 +208,29 @@ void test_ft_calloc()
 // =======================
 void test_ft_substr()
 {
-    assert(strcmp(ft_substr("", 1, 1), "") == 0);
+    char *result = ft_substr("", 1, 1);
+    assert(strcmp(result, "") == 0);
+    free(result);
     // ...
     // (Remainder of your test code, no zero-length array usage)
+}
+
+
+// =======================
+//  9) test_ft_split
+// =======================
+void test_ft_split()
+{
+    char buffer[] = "11111\n22222\n";
+    char **result;
+
+    result = ft_split(buffer, '\n');
+    assert(ft_strlen(result[0]) == 5);
+    for (int i = 0; i < 2; i++)
+    {
+        free(result[i]);
+    }
+    free(result);
 }
 
 // =======================
@@ -225,10 +245,8 @@ int main()
     test_ft_bzero();
     test_ft_strlen();
     test_ft_strncmp();
-    // etc...
     test_ft_strlcpy();
-    // test_ft_strlcat();
-    // and so on
+    test_ft_split();
 
     test_ft_calloc();
     test_ft_substr();
