@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:15:16 by saalarco          #+#    #+#             */
-/*   Updated: 2024/11/29 16:44:26 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:43:38 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	main(int argc, char **argv)
 	if (measure_map(argv[1], &game_map) == -1)
 		return(ft_printf("measure_map %s: %s\n", argv[1], strerror(errno)), 1);
 
+	ft_printf("%d", game_map.height);
+	ft_printf("%d", game_map.width);
 	// open file fetch map into memory close map, check for errors
 	//have_map(argv[1], &game_map);
 

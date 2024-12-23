@@ -3,9 +3,9 @@
 
 // int	is_no_line(char *line, int fd);
 // void	fetch_map_line(char **map, char *line, int h, size_t row);
-int measure_height(int fd, char *line);
 void measure_map_and_alloc(char **file);
 int	line_problem(char *line, int fd);
+// char *measure_height(char *line, int fd, int height);
 
 int	line_problem(char *line, int fd)
 {
@@ -84,14 +84,39 @@ int	line_problem(char *line, int fd)
 // 	return height;
 // }
 
+
+
 // measure heigth
-// measure width
+char	*measure_height(char *line, int fd, int *height, int *width)
+{
+	int prev_width;
+	
+	*width = (int) ft_strlen(line);
+	prev_width = (int) ft_strlen(line);
+	while (line != NULL && *line != '\0')
+	{
+		if (line_problem(line, fd))
+			return(perror(ERROR_IRREGULAR), NULL);
+		(*height)++;
+		if (!(line[prev_width] == '\0'))
+			*width = ft_strlen(line);
+		if (*width != (int) prev_width )
+		{
+			return(perror(ERROR_IRREGULAR), NULL);
+		}
+		prev_width = ft_strlen(line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	return line;
+}
+
 
 int measure_map(char *file_name, Map *map)
 {
 	int fd;
 	int height;
-	size_t width;
+	int width;
 	char *line;
 
 	errno = EIO;
@@ -103,20 +128,10 @@ int measure_map(char *file_name, Map *map)
 	line = get_next_line(fd);
 	if (line_problem(line, fd))
 		return(perror(ERROR_IRREGULAR), -1);
-	while (line != NULL && *line != '\0')
+	line = measure_height(line, fd, &height, &width);
+	if (line != NULL && *line == '\0')
 	{
-		if (line_problem(line, fd))
-			return(perror(ERROR_IRREGULAR), -1);
-
-		/*
-		if (width == 0)
-			width = ft_strlen(line);
-		else if (ft_strlen(line) != width)
-			return(perror(ERROR_EXTENSION), -1);
-		*/
-		height++;
-		free(line);
-		line = get_next_line(fd);
+		return(perror(ERROR_IRREGULAR), -1);
 	}
 	free(line);
 	close(fd);
