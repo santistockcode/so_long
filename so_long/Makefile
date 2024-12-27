@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/12/27 14:25:21 by saalarco         ###   ########.fr        #
+#    Updated: 2024/12/27 17:07:42 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ LIBS = ${LIBFT}/libft.a
 
 SRCS		= src/so_long.c \
 	src/arguments_valid.c \
-	src/get_map/free_map_data.c \
+	src/get_map/free_parsed_map.c \
 	src/get_map/parse_map.c
                          
 OBJS        := $(SRCS:.c=.o)
@@ -48,8 +48,9 @@ OBJS        := $(SRCS:.c=.o)
 	${CC} ${FLAGS} -o $@ -c $< ${HEADERS}
 
 TEST_GET_MAP_SRCS  	= $(TEST_DIR)/test_get_map.c \
-	src/get_map/free_map_data.c \
-	src/get_map/parse_map.c
+	src/get_map/free_parsed_map.c \
+	src/get_map/parse_map.c \
+	src/get_map/validate_map_contents.c
 	
 TEST_GET_MAP_BIN     = ./$(TEST_DIR)/tests_get_map
 

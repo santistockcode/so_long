@@ -102,6 +102,48 @@ static void test_parse_map_invalid(void)
     t_parsed_map *map8 = parse_map(file8);
     ft_file_free(&file8);
     assert(map8 == NULL && "returned parse_map for invalid map");
+}
+
+static void test_validate_map_content_ko(void)
+{
+	// 9
+	int fd9 = open("maps/invalid/9.ber", O_RDONLY);
+	assert(fd9 != -1 && "Could not open file9 for testing");
+	t_file *file9 = ft_file_read_all(fd9);
+	close(fd9);
+	if (!file9)
+		return ;
+	t_parsed_map *map9 = parse_map(file9);
+	ft_file_free(&file9);
+	int response = validate_map_contents(map9);
+	assert(response == 0 && "map9 is valid");
+	free_parsed_map(map9);
+
+	// 10
+	int fd10 = open("maps/invalid/10.ber", O_RDONLY);
+	assert(fd10 != -1 && "Could not open file10 for testing");
+	t_file *file10 = ft_file_read_all(fd10);
+	close(fd10);
+	if (!file10)
+		return ;
+	t_parsed_map *map10 = parse_map(file10);
+	ft_file_free(&file10);
+	response = validate_map_contents(map10);
+	assert(response == 0 && "map10 is valid");
+	free_parsed_map(map10);
+
+	// 11
+	int fd11 = open("maps/invalid/11.ber", O_RDONLY);
+	assert(fd11 != -1 && "Could not open file11 for testing");
+	t_file *file11 = ft_file_read_all(fd11);
+	close(fd11);
+	if (!file11)
+		return ;
+	t_parsed_map *map11 = parse_map(file11);
+	ft_file_free(&file11);
+	response = validate_map_contents(map11);
+	assert(response == 0 && "map11 is valid");
+	free_parsed_map(map11);
 
 }
 
@@ -118,7 +160,7 @@ static void test_parse_map_valid(void)
     ft_file_free(&file0);
     assert(map0 != NULL && "parse_map returned NULL for valid map0");
     assert(map0->cells != NULL && "map0 is null so not assigned");
-    free_map_data_no_collectables(map0);
+    free_parsed_map(map0);
 
     // map exists and has a /n at the end height is 5
     int fd1 = open("maps/valid/1.ber", O_RDONLY);
@@ -132,7 +174,7 @@ static void test_parse_map_valid(void)
     assert(map1 != NULL && "parse_map returned NULL for valid map1");
     assert(map1->cells != NULL && "map1 is null so not assigned");
     assert(map1->height == 7 && "map1 height is not 7");
-    free_map_data_no_collectables(map1);
+    free_parsed_map(map1);
 
     // map exists and end in EOF height is 5
     int fd2 = open("maps/valid/2.ber", O_RDONLY);
@@ -146,10 +188,27 @@ static void test_parse_map_valid(void)
     assert(map2 != NULL && "parse_map returned NULL for valid map2");
     assert(map2->cells != NULL && "map2 is null so not assigned");
     assert(map2->height == 5 && "map2 height is not 5");
-    free_map_data_no_collectables(map2);
+    free_parsed_map(map2);
+}
 
-    // map exists and has at least one collectable
-
+void test_validate_map_content_ok(void)
+{
+	// map exists and has at least one P C and E
+    int fd3 = open("maps/valid/3.ber", O_RDONLY);
+    assert(fd3 != -1 && "Could not open file for testing");
+    t_file *file3 = ft_file_read_all(fd3);
+    close(fd3);
+    if (!file3)
+        return ;
+    t_parsed_map *map3 = parse_map(file3);
+	ft_file_free(&file3);
+	assert(map3 != NULL && "parse_map returned NULL for valid map3");
+	assert(map3->cells != NULL && "map3 is null so not assigned");
+	assert(map3->height == 5 && "map3 height is not 5");
+	int response = validate_map_contents(map3);
+	assert(map3->num_collectables == 1 && "map3 num_collectables is not 1");
+	assert(response == 1 && "map3 is not valid");
+	free_parsed_map(map3);
 }
 
 // test to check if t_map_data *parse_map(t_file *file); and int validate_map_data(t_map_data *map_data); works
@@ -157,6 +216,9 @@ int main(void)
 {
     test_parse_map_valid();
     test_parse_map_invalid();
+
+	test_validate_map_content_ko();
+	test_validate_map_content_ok();
 
     printf("\x1b[32mAll check_valid_map tests went ok!\n\x1b[0m");
     return 0;

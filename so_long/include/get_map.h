@@ -38,15 +38,13 @@ t_parsed_map *parse_map(t_file *file);
 //int check_pathfind(t_map_data *map_data);
 
 // validate map contents
-// int validate_map_contents(t_parsed_map *map);
+int validate_map_contents(t_parsed_map *map);
 
 // validaate map playable
 //int validate_map_contents(t_parsed_map *map);
 
 // free map data
-void free_map_data(t_parsed_map *map_data);
-void free_map_data_no_collectables(t_parsed_map *map_data);
-
+void free_parsed_map(t_parsed_map *map_data);
 
 // Valorar según haga pruebas si crear un .h para todos los borradores
 

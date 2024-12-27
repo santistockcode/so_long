@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   free_parsed_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 17:15:16 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/27 16:59:31 by saalarco         ###   ########.fr       */
+/*   Created: 2024/12/23 13:23:14 by saalarco          #+#    #+#             */
+/*   Updated: 2024/12/27 17:06:39 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/so_long.h"
+#include "../../include/so_long.h"
 
-
-int	main(int argc, char **argv)
+void	free_parsed_map(t_parsed_map *map_data)
 {
+	int	i;
 
-	if (argc != 2 || !is_extension_correct(argv[1]))
-		return(ft_printf(ERROR_USAGE), 0);
-
-	// get_map -> validate map data -> map pathfinder 
-	
-	// cosas mlx
-	return (1);
+	if (!map_data)
+		return ;
+	i = 0;
+	if (map_data->cells)
+	{
+		while (i < map_data->height)
+		{
+			if (map_data->cells[i])
+				free(map_data->cells[i]);
+			i++;
+		}
+		free(map_data->cells);
+	}
+	if (map_data->collectables)
+		free(map_data->collectables);
+	free(map_data);
 }
+
