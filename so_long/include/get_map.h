@@ -24,7 +24,7 @@ typedef struct s_parsed_map {
     char **cells;
     t_position player_start;
     t_position exit_pos;
-    t_position *collectables;
+    t_list *collectables;
     int num_collectables;
 } t_parsed_map;
 

@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:23:14 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/27 17:06:39 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/27 19:41:50 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	free_parsed_map(t_parsed_map *map_data)
 		free(map_data->cells);
 	}
 	if (map_data->collectables)
+	{
+		ft_lstclear(&(map_data->collectables), free);
 		free(map_data->collectables);
+	}
 	free(map_data);
 }
 

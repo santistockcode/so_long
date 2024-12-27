@@ -205,21 +205,42 @@ void test_validate_map_content_ok(void)
 	assert(map3 != NULL && "parse_map returned NULL for valid map3");
 	assert(map3->cells != NULL && "map3 is null so not assigned");
 	assert(map3->height == 5 && "map3 height is not 5");
-	int response = validate_map_contents(map3);
+	int response3 = validate_map_contents(map3);
 	assert(map3->num_collectables == 1 && "map3 num_collectables is not 1");
-	assert(response == 1 && "map3 is not valid");
+	assert(response3 == 1 && "map3 is not valid");
+    assert(map3->collectables != NULL && "collectables are null");
 	free_parsed_map(map3);
+
+    // map 4.ber
+    int fd4 = open("maps/valid/4.ber", O_RDONLY);
+    assert(fd4 != -1 && "Could not open file for testing");
+    t_file *file4 = ft_file_read_all(fd4);
+    close(fd4);
+    if (!file4)
+        return ;
+    t_parsed_map *map4 = parse_map(file4);
+	ft_file_free(&file4);
+	assert(map4 != NULL && "parse_map returned NULL for valid map4");
+	assert(map4->cells != NULL && "map4 is null so not assigned");
+	assert(map4->height == 3 && "map4 height is not 3");
+	int response4 = validate_map_contents(map4);
+	assert(map4->num_collectables == 1 && "map4 num_collectables is not 1");
+	assert(response4 == 1 && "map4 is not valid");
+    t_list  *collectables = map4->collectables;
+    t_position *position = collectables->content;
+    assert(position->x == 9 && "position x being 9 for C is incorrect");
+    assert(position->y == 1 && "position y being 1 for C is incorrect");
+	free_parsed_map(map4);
 }
 
-// test to check if t_map_data *parse_map(t_file *file); and int validate_map_data(t_map_data *map_data); works
+// TODO: distinguish between CI tests and how-to-use examples, that is refine scope and decouple
 int main(void)
 {
     test_parse_map_valid();
-    test_parse_map_invalid();
-
-	test_validate_map_content_ko();
+    test_parse_map_invalid();	
+    test_validate_map_content_ko();
 	test_validate_map_content_ok();
+    printf("\x1b[32mAll test_get_map tests went ok!\n\x1b[0m");
 
-    printf("\x1b[32mAll check_valid_map tests went ok!\n\x1b[0m");
     return 0;
 }
