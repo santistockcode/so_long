@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/12/23 19:43:36 by saalarco         ###   ########.fr        #
+#    Updated: 2024/12/27 14:25:21 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,19 +39,19 @@ LIBS = ${LIBFT}/libft.a
 
 SRCS		= src/so_long.c \
 	src/arguments_valid.c \
-	src/check_valid_map/free_map_data.c \
-	src/check_valid_map/get_map_data.c
+	src/get_map/free_map_data.c \
+	src/get_map/parse_map.c
                          
 OBJS        := $(SRCS:.c=.o)
 
 .c.o:
 	${CC} ${FLAGS} -o $@ -c $< ${HEADERS}
 
-TEST_CHECK_VALID_MAP_SRCS  	= $(TEST_DIR)/test_check_valid_map.c \
-	src/check_valid_map/free_map_data.c \
-	src/check_valid_map/get_map_data.c
+TEST_GET_MAP_SRCS  	= $(TEST_DIR)/test_get_map.c \
+	src/get_map/free_map_data.c \
+	src/get_map/parse_map.c
 	
-TEST_CHECK_VALID_MAP_BIN     = ./$(TEST_DIR)/tests_check_valid_map
+TEST_GET_MAP_BIN     = ./$(TEST_DIR)/tests_get_map
 
 
 ################################################################################
@@ -78,25 +78,30 @@ libmlx:
 ${NAME}: ${OBJS}
 	@${CC} ${FLAGS} ${OBJS} ${LIBS} ${HEADERS} -o ${NAME}
 
-test: libft $(TEST_CHECK_VALID_MAP_BIN)
+test: libft $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	@./$(TEST_DIR)/tests_check_valid_map
+	@./$(TEST_DIR)/tests_get_map
 	@echo "$(GREEN)Tests passed!$(CLR_RMV)"
 
-$(TEST_CHECK_VALID_MAP_BIN): $(TEST_CHECK_VALID_MAP_SRCS)
-	$(CC) $(FLAGS) $(INCLUDES) $(TEST_CHECK_VALID_MAP_SRCS) $(LIBS) -o $(TEST_CHECK_VALID_MAP_BIN)
+$(TEST_GET_MAP_BIN): $(TEST_GET_MAP_SRCS)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 
-tval: libft $(TEST_CHECK_VALID_MAP_BIN)
-	$(CC) $(FLAGS) $(INCLUDES) $(TEST_CHECK_VALID_MAP_SRCS) $(LIBS) -o $(TEST_CHECK_VALID_MAP_BIN)
+tval: libft $(TEST_GET_MAP_BIN)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_DIR)/tests_check_valid_map
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_DIR)/tests_get_map
 	@echo "$(GREEN)Tests passed!$(CLR_RMV)"
 
-tfsanitize: libft $(TEST_CHECK_VALID_MAP_BIN)
-	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_CHECK_VALID_MAP_SRCS) $(LIBS) -o $(TEST_CHECK_VALID_MAP_BIN)
+tfsanitize: libft $(TEST_GET_MAP_BIN)
+	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	@./$(TEST_DIR)/tests_check_valid_map
+	@./$(TEST_DIR)/tests_get_map
 	@echo "$(GREEN)Tests passed!$(CLR_RMV)"
+
+tlldb : libft $(TEST_GET_MAP_BIN)
+	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
+	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
+	lldb ./$(TEST_DIR)/tests_get_map
 
 clean:
 	rm -rf ${LIBMLX}/build
@@ -107,7 +112,7 @@ fclean: clean
 	make -C ${LIBFT} fclean
 	@rm -rf $(OBJS)
 	@rm -rf $(NAME)
-	@rm -rf $(TEST_CHECK_VALID_MAP_BIN)
+	@rm -rf $(TEST_GET_MAP_BIN)
 
 re: clean all
 

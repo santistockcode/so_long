@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:11:26 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/23 12:36:29 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:20:39 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/include/libft.h"
 
-# include "../include/check_valid_map.h"
+# include "../include/get_map.h"
 
 
 # include <unistd.h>
