@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 12:14:29 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/27 19:48:39 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/30 08:44:22 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,33 @@ t_list	*alloc_list_collectables(t_parsed_map *map)
 	return (list_head);
 }
 
-// flood fill from player
+static void find_player_and_exitmap(t_parsed_map *map)
+{
+		int	i;
+	int	j;
 
-// flood fill clean from player
+	i = 0;
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			if (map->cells[i][j] == EXITMAP)
+			{
+				map->exit_pos.x = (unsigned int) j;
+				map->exit_pos.y = (unsigned int) i;
+			}
+			else if (map->cells[i][j] == PLAYER)
+			{
+				map->player_start.x = (unsigned int) j;
+				map->player_start.y = (unsigned int) i;
+			}
+			j++;
+		}
+		i++;
+	}
 
-// flood fill check is reachable
+}
 
 // Count and locate P, E, C
 static void	count_player_exitmap_collectables(t_parsed_map *map, int *count_players, int *count_exits)
@@ -100,6 +122,7 @@ int	validate_map_contents(t_parsed_map *map)
 	count_player_exitmap_collectables(map, &count_players, &count_exits);
 	if (map->num_collectables == 0 || count_players != 1 || count_exits != 1)
 		return (FALSE);
+	find_player_and_exitmap(map);
 	collectables = alloc_list_collectables(map);
 	if(!collectables)
 		return (FALSE);

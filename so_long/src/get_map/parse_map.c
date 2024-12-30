@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:19:41 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/27 19:19:43 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/30 09:06:28 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ static int	check_is_rectangle(t_parsed_map *map_data)
 		i++;
 	}
 	map_data->width = len;
+	if (map_data->width == map_data->height)
+		return (FALSE);
 	return (TRUE);
 }
 

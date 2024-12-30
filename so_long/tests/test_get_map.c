@@ -233,6 +233,144 @@ static void test_validate_map_content_ok(void)
 	free_parsed_map(map4);
 }
 
+
+void aux_flood_fill_mark(char **map, unsigned int from_x, unsigned int from_y)
+{
+    if((map[from_x][from_y] == WALL ) || (map[from_x][from_y] & 0x80) != 0)
+        return;
+    
+    if(map[from_x][from_y] != NOWALL && map[from_x][from_y] != PLAYER && map[from_x][from_y] != EXITMAP && map[from_x][from_y] != COLLEC)
+        return;
+    
+    map[from_x][from_y] |= 0x80;
+
+    aux_flood_fill_mark(map, from_x + 1, from_y);
+    aux_flood_fill_mark(map, from_x - 1, from_y);
+    aux_flood_fill_mark(map, from_x, from_y + 1); 
+    aux_flood_fill_mark(map, from_x, from_y - 1);
+
+   return;
+}
+
+
+void aux_flood_fill_unmark(char **map, unsigned int from_x, unsigned int from_y)
+{
+    if((map[from_x][from_y] == WALL ) || (map[from_x][from_y] & 0x80) == 0)
+        return;
+    
+    map[from_x][from_y] &= 0x7F;
+
+    aux_flood_fill_unmark(map, from_x + 1, from_y);
+    aux_flood_fill_unmark(map, from_x - 1, from_y);
+    aux_flood_fill_unmark(map, from_x, from_y + 1); 
+    aux_flood_fill_unmark(map, from_x, from_y - 1);
+
+   return;
+}
+
+static void test_validate_map_playable_ko()
+{
+    // map 5.ber
+    int fd5 = open("maps/valid/5.ber", O_RDONLY);
+    assert(fd5 != -1 && "Could not open file 5 for testing");
+    t_file *file5 = ft_file_read_all(fd5);
+    close(fd5);
+    if (!file5)
+        return ;
+    t_parsed_map *map5 = parse_map(file5);
+    ft_file_free(&file5);
+    assert(map5 != NULL && "parse_map returned NULL for valid map5");
+    assert(map5->cells != NULL && "map5 cells are null, map not assigned");
+    assert(map5->height == 3 && "map5 height is not 3");
+    
+    int response5 = validate_map_contents(map5);
+    assert(map5->num_collectables == 1 && "map5 num_collectables is not 1");
+    assert(response5 == 1 && "map5 is not valid");
+    
+    t_list  *collectables5 = map5->collectables;
+    t_position *position5 = collectables5->content;
+    assert(position5->x == 9 && "position x being 9 for C is incorrect");
+    assert(position5->y == 1 && "position y being 1 for C is incorrect");
+    assert(map5->exit_pos.x == 8 && "exit_pos.x is incorrect");
+    assert(map5->exit_pos.y == 1 && "exit_pos.y is incorrect");
+    assert(map5->player_start.x == 7 && "player_start.x is incorrect");
+    assert(map5->player_start.y == 1 && "player_start.y is incorrect");
+
+    // Test flood fill marking
+    aux_flood_fill_mark(map5->cells, map5->player_start.y, map5->player_start.x);
+    
+    // Test that reachable empty spaces are marked
+    assert(((map5->cells[1][4] & 0x80) != 0) && "empty pos not marked although reachable");
+    assert(((map5->cells[1][8] & 0x80) != 0) && "exit_pos not marked although reachable");
+    assert(((map5->cells[1][9] & 0x80) != 0) && "collectable position not marked");
+    
+    // Test that walls remain unmarked
+    assert(((map5->cells[1][0] & 0x80) == 0) && "wall should not be marked");
+
+    // Test unmarking
+    aux_flood_fill_unmark(map5->cells, map5->player_start.y, map5->player_start.x);
+    
+    // Test that all marked positions are cleaned
+    assert(((map5->cells[1][4] & 0x80) == 0) && "empty pos still marked although cleaned");
+    assert(((map5->cells[1][8] & 0x80) == 0) && "exit_pos still marked although cleaned");
+    assert(((map5->cells[1][9] & 0x80) == 0) && "collectable position still marked");
+
+    // Ensure walls remain unmarked
+    assert(((map5->cells[1][0] & 0x80) == 0) && "wall marked during cleaning");
+
+    free_parsed_map(map5);
+
+
+        // Open the map file
+    int fd6 = open("maps/valid/6.ber", O_RDONLY);
+    assert(fd6 != -1 && "Could not open file 6.ber for testing");
+    
+    // Read the map file
+    t_file *file6 = ft_file_read_all(fd6);
+    close(fd6);
+    if (!file6)
+        return;
+
+    // Parse the map
+    t_parsed_map *map6 = parse_map(file6);
+    ft_file_free(&file6);
+    assert(map6 != NULL && "parse_map returned NULL for valid map6");
+    assert(map6->cells != NULL && "map6 cells are null, map not assigned");
+
+    // Perform flood-fill marking
+    aux_flood_fill_mark(map6->cells, map6->player_start.y, map6->player_start.x);
+
+    // Ensure the player position is marked
+    assert(((map6->cells[map6->player_start.y][map6->player_start.x] & 0x80) != 0) && 
+           "player position not marked during flood-fill");
+
+    // Ensure the exit position is marked
+    assert(((map6->cells[map6->exit_pos.y][map6->exit_pos.x] & 0x80) != 0) && 
+           "exit position not marked during flood-fill");
+
+    // Ensure walls remain unmarked (using position 0,0 which is always a wall)
+    assert(((map6->cells[0][0] & 0x80) == 0) && 
+           "wall at position (0,0) should not be marked during flood-fill");
+
+    // Perform flood-fill unmarking
+    aux_flood_fill_unmark(map6->cells, map6->player_start.y, map6->player_start.x);
+
+    // Ensure the player position is unmarked
+    assert(((map6->cells[map6->player_start.y][map6->player_start.x] & 0x80) == 0) && 
+           "player position still marked after unmarking");
+
+    // Ensure the exit position is unmarked
+    assert(((map6->cells[map6->exit_pos.y][map6->exit_pos.x] & 0x80) == 0) && 
+           "exit position still marked after unmarking");
+
+    // Ensure walls remain unmarked (using position 0,0 which is always a wall)
+    assert(((map6->cells[0][0] & 0x80) == 0) && 
+           "wall at position (0,0) marked during unmarking");
+
+    // Free parsed map resources
+    free_parsed_map(map6);
+}
+
 // TODO: distinguish between CI tests and how-to-use examples, that is refine scope and decouple
 int main(void)
 {
@@ -240,5 +378,7 @@ int main(void)
     test_parse_map_invalid();	
     test_validate_map_content_ko();
 	test_validate_map_content_ok();
+
+    test_validate_map_playable_ko();
     return 0;
 }
