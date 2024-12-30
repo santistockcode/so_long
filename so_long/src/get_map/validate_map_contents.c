@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 12:14:29 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/30 08:44:22 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/30 11:59:12 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static void	count_player_exitmap_collectables(t_parsed_map *map, int *count_play
 	}
 }
 
-// before storing them in map->collectibles
+
 int	validate_map_contents(t_parsed_map *map)
 {
 	int count_players;

@@ -41,7 +41,7 @@ t_parsed_map *parse_map(t_file *file);
 int validate_map_contents(t_parsed_map *map);
 
 // validaate map playable
-//int validate_map_contents(t_parsed_map *map);
+int	validate_map_playable(t_parsed_map *map);
 
 // free map data
 void free_parsed_map(t_parsed_map *map_data);

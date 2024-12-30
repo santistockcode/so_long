@@ -268,9 +268,9 @@ void aux_flood_fill_unmark(char **map, unsigned int from_x, unsigned int from_y)
    return;
 }
 
-static void test_validate_map_playable_ko()
+static void test_validate_map_playable_ok()
 {
-    // map 5.ber
+    // map 5.ber ************************************************************************************
     int fd5 = open("maps/valid/5.ber", O_RDONLY);
     assert(fd5 != -1 && "Could not open file 5 for testing");
     t_file *file5 = ft_file_read_all(fd5);
@@ -318,10 +318,13 @@ static void test_validate_map_playable_ko()
     // Ensure walls remain unmarked
     assert(((map5->cells[1][0] & 0x80) == 0) && "wall marked during cleaning");
 
+    int playable5 = validate_map_playable(map5);
+    assert(playable5 == 1 && "map5 reads as non playable but it is playable");
+
     free_parsed_map(map5);
 
-
-        // Open the map file
+    // map 6.ber ************************************************************************************
+    // Open the map file
     int fd6 = open("maps/valid/6.ber", O_RDONLY);
     assert(fd6 != -1 && "Could not open file 6.ber for testing");
     
@@ -336,6 +339,10 @@ static void test_validate_map_playable_ko()
     ft_file_free(&file6);
     assert(map6 != NULL && "parse_map returned NULL for valid map6");
     assert(map6->cells != NULL && "map6 cells are null, map not assigned");
+
+    int response6 = validate_map_contents(map6);
+    assert(map6->num_collectables != 0 && "map6 num_collectables is 0");
+    assert(response6 == 1 && "map6 is not valid");
 
     // Perform flood-fill marking
     aux_flood_fill_mark(map6->cells, map6->player_start.y, map6->player_start.x);
@@ -366,9 +373,73 @@ static void test_validate_map_playable_ko()
     // Ensure walls remain unmarked (using position 0,0 which is always a wall)
     assert(((map6->cells[0][0] & 0x80) == 0) && 
            "wall at position (0,0) marked during unmarking");
+    
+    int playable6 = validate_map_playable(map6);
+    assert(playable6 == 1 && "map6 reads as non playable but it is playable");
 
     // Free parsed map resources
     free_parsed_map(map6);
+
+    // map 7.ber ************************************************************************************
+    int fd7 = open("maps/valid/7.ber", O_RDONLY);
+    t_file *file7 = ft_file_read_all(fd7);
+    assert(fd7 != -1 && "Could not open file 7 for testing");
+    close(fd7);
+    if (!file7)
+        return ;
+    t_parsed_map *map7 = parse_map(file7);
+    ft_file_free(&file7);
+    int contents7 = validate_map_contents(map7);
+    assert(contents7 == 1 && "map7 is not valid");
+    int playable7 = validate_map_playable(map7);
+    assert(playable7 == 1 && "map7 reads as non playable but it is playable");
+    free_parsed_map(map7);
+}
+
+static void test_validate_map_playable_ko()
+{
+    // map 12.ber ************************************************************************************
+    int fd12 = open("maps/invalid/12.ber", O_RDONLY);
+    t_file *file12 = ft_file_read_all(fd12);
+    close(fd12);
+    if (!file12)
+        return ;
+    t_parsed_map *map12 = parse_map(file12);
+    ft_file_free(&file12);
+    int contents12 = validate_map_contents(map12);
+    assert(contents12 == 1 && "map12 is not valid");
+    int playable12 = validate_map_playable(map12);
+    assert(playable12 == 0 && "map12 reads as playable but it is not playable");
+    free_parsed_map(map12);
+    
+    // map 13.ber ************************************************************************************
+    int fd13 = open("maps/invalid/13.ber", O_RDONLY);
+    t_file *file13 = ft_file_read_all(fd13);
+    close(fd13);
+    if (!file13)
+        return ;
+    t_parsed_map *map13 = parse_map(file13);
+    ft_file_free(&file13);
+    int contents13 = validate_map_contents(map13);
+    assert(contents13 == 1 && "map13 is not valid");
+    int playable13 = validate_map_playable(map13);
+    assert(playable13 == 0 && "map13 reads as playable but it is not playable");
+    free_parsed_map(map13);
+
+    // map 14.ber ************************************************************************************
+    int fd14 = open("maps/invalid/14.ber", O_RDONLY);
+    t_file *file14 = ft_file_read_all(fd14);
+    close(fd14);
+    if (!file14)
+        return ;
+    t_parsed_map *map14 = parse_map(file14);
+    ft_file_free(&file14);
+    int contents14 = validate_map_contents(map14);
+    assert(contents14 == 1 && "map14 is not valid");
+    int playable14 = validate_map_playable(map14);
+    assert(playable14 == 0 && "map14 reads as playable but it is not playable");
+    free_parsed_map(map14);
+
 }
 
 // TODO: distinguish between CI tests and how-to-use examples, that is refine scope and decouple
@@ -379,6 +450,7 @@ int main(void)
     test_validate_map_content_ko();
 	test_validate_map_content_ok();
 
+    test_validate_map_playable_ok();
     test_validate_map_playable_ko();
     return 0;
 }

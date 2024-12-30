@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/12/30 08:29:17 by saalarco         ###   ########.fr        #
+#    Updated: 2024/12/30 12:38:32 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ OBJS        := $(SRCS:.c=.o)
 TEST_GET_MAP_SRCS  	= $(TEST_DIR)/test_get_map.c \
 	src/get_map/free_parsed_map.c \
 	src/get_map/parse_map.c \
-	src/get_map/validate_map_contents.c
+	src/get_map/validate_map_contents.c \
+	src/get_map/validate_map_playable.c
 	
 TEST_GET_MAP_BIN     = ./$(TEST_DIR)/tests_get_map
 
@@ -103,13 +104,13 @@ tval_get_map: libft $(TEST_GET_MAP_BIN)
 			--show-leak-kinds=all \
 			--track-origins=yes \
 			./$(TEST_GET_MAP_BIN)
-	@echo "$(GREEN)Tests valgrind get_map module passed!$(CLR_RMV)"
+	@echo "$(GREEN)Tests valgrind get_map module passed! $(CLR_RMV)$(BLUE)but you better check the output above$(CLR_RMV)"
 
 tfsanitize_get_map: libft $(TEST_GET_MAP_BIN)
 	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
 	@./$(TEST_GET_MAP_BIN)
-	@echo "$(GREEN)Tests fsanitize get_map module passed!$(CLR_RMV)"
+	@echo "$(GREEN)Tests fsanitize get_map module passed! $(CLR_RMV)$(BLUE)but you better check the output above$(CLR_RMV)"
 
 # utils lldb
 tlldb_get_map : libft $(TEST_GET_MAP_BIN)
