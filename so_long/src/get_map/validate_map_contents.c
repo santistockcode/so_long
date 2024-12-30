@@ -6,30 +6,36 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 12:14:29 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/30 11:59:12 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/30 13:00:29 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/so_long.h"
 
+/*
+Creates a new position node for the list
+*/
 t_list	*create_position(int i, int j)
 {
-	t_position *position_new;
+	t_position	*position_new;
 
-	position_new = (t_position *) malloc (sizeof(t_position));
+	position_new = (t_position *)malloc(sizeof(t_position));
 	if (position_new == NULL)
 		return (NULL);
-	position_new->x=(unsigned int) j;
-	position_new->y=(unsigned int) i;
-	return (ft_lstnew((t_position	*) position_new));
+	position_new->x = (unsigned int)j;
+	position_new->y = (unsigned int)i;
+	return (ft_lstnew((t_position *)position_new));
 }
-// alloc_list_collectables
+
+/*
+Allocates a list of collectables
+*/
 t_list	*alloc_list_collectables(t_parsed_map *map)
 {
 	t_list	*list_head;
 	t_list	*new_node;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	list_head = NULL;
@@ -52,9 +58,12 @@ t_list	*alloc_list_collectables(t_parsed_map *map)
 	return (list_head);
 }
 
-static void find_player_and_exitmap(t_parsed_map *map)
+/*
+Find the player and exitmap
+*/
+static void	find_player_and_exitmap(t_parsed_map *map)
 {
-		int	i;
+	int	i;
 	int	j;
 
 	i = 0;
@@ -65,23 +74,25 @@ static void find_player_and_exitmap(t_parsed_map *map)
 		{
 			if (map->cells[i][j] == EXITMAP)
 			{
-				map->exit_pos.x = (unsigned int) j;
-				map->exit_pos.y = (unsigned int) i;
+				map->exit_pos.x = (unsigned int)j;
+				map->exit_pos.y = (unsigned int)i;
 			}
 			else if (map->cells[i][j] == PLAYER)
 			{
-				map->player_start.x = (unsigned int) j;
-				map->player_start.y = (unsigned int) i;
+				map->player_start.x = (unsigned int)j;
+				map->player_start.y = (unsigned int)i;
 			}
 			j++;
 		}
 		i++;
 	}
-
 }
 
-// Count and locate P, E, C
-static void	count_player_exitmap_collectables(t_parsed_map *map, int *count_players, int *count_exits)
+/*
+Count and locate P, E, C
+*/
+static void	count_player_exitmap_collectables(t_parsed_map *map,
+		int *count_players, int *count_exits)
 {
 	int	i;
 	int	j;
@@ -108,11 +119,13 @@ static void	count_player_exitmap_collectables(t_parsed_map *map, int *count_play
 	}
 }
 
-
+/*
+Validates the contents of the map
+*/
 int	validate_map_contents(t_parsed_map *map)
 {
-	int count_players;
-    int count_exits;
+	int		count_players;
+	int		count_exits;
 	t_list	*collectables;
 
 	count_players = 0;
@@ -124,7 +137,7 @@ int	validate_map_contents(t_parsed_map *map)
 		return (FALSE);
 	find_player_and_exitmap(map);
 	collectables = alloc_list_collectables(map);
-	if(!collectables)
+	if (!collectables)
 		return (FALSE);
 	map->collectables = collectables;
 	return (TRUE);
