@@ -636,6 +636,94 @@ static void test_validate_map_playable_ok()
     assert(playable14 == 1 && "map14 reads as non playable but it is playable");
     free_parsed_map(map14);
 
+    // 42 lines file -> longer than that it doesn't pass fsanitize
+    // map 15.ber ************************************************************************************
+    int fd15 = open("maps/valid/15.ber", O_RDONLY);
+    t_file *file15 = ft_file_read_all(fd15);
+    assert(fd15 != -1 && "Could not open file 15.ber for testing");
+    close(fd15);
+    if (!file15)
+        return ;
+    t_parsed_map *map15 = parse_map(file15);
+    ft_file_free(&file15);
+    assert(map15 != NULL && "parse_map returned NULL for valid map15");
+    int contents15 = validate_map_contents(map15);
+    assert(contents15 == 1 && "map15 is not valid");
+    int playable15 = validate_map_playable(map15);
+    assert(playable15 == 1 && "map15 reads as non playable but it is playable");
+    free_parsed_map(map15);
+
+    // map 16.ber ************************************************************************************
+    int fd16 = open("maps/valid/16.ber", O_RDONLY);
+    t_file *file16 = ft_file_read_all(fd16);
+    assert(fd16 != -1 && "Could not open file 16.ber for testing");
+    close(fd16);
+    if (!file16)
+        return ;
+    t_parsed_map *map16 = parse_map(file16);
+    ft_file_free(&file16);
+    assert(map16 != NULL && "parse_map returned NULL for valid map16");
+    assert(map16->cells != NULL && "map16 cells are null, map not assigned");
+    int response16 = validate_map_contents(map16);
+    assert(map16->num_collectables != 0 && "map16 num_collectables is 0");
+    assert(response16 == 1 && "map16 is not valid");
+    int playable16 = validate_map_playable(map16);
+    assert(playable16 == 1 && "map16 reads as non playable but it is playable");
+    free_parsed_map(map16);
+
+    // map 17.ber ************************************************************************************
+    int fd17 = open("maps/valid/17.ber", O_RDONLY);
+    t_file *file17 = ft_file_read_all(fd17);
+    assert(fd17 != -1 && "Could not open file 17.ber for testing");
+    close(fd17);
+    if (!file17)
+        return ;
+    t_parsed_map *map17 = parse_map(file17);
+    ft_file_free(&file17);
+    assert(map17 != NULL && "parse_map returned NULL for valid map17");
+    assert(map17->cells != NULL && "map17 cells are null, map not assigned");
+    int response17 = validate_map_contents(map17);
+    assert(map17->num_collectables != 0 && "map17 num_collectables is 0");
+    assert(response17 == 1 && "map17 is not valid");
+    int playable17 = validate_map_playable(map17);
+    assert(playable17 == 1 && "map17 reads as non playable but it is playable");
+    free_parsed_map(map17);
+
+    // map 18.ber ************************************************************************************
+    int fd18 = open("maps/valid/18.ber", O_RDONLY);
+    t_file *file18 = ft_file_read_all(fd18);
+    assert(fd18 != -1 && "Could not open file 18.ber for testing");
+    close(fd18);
+    if (!file18)
+        return ;
+    t_parsed_map *map18 = parse_map(file18);
+    ft_file_free(&file18);
+    assert(map18 != NULL && "parse_map returned NULL for valid map18");
+    assert(map18->cells != NULL && "map18 cells are null, map not assigned");
+    int response18 = validate_map_contents(map18);
+    assert(map18->num_collectables != 0 && "map18 num_collectables is 0");
+    assert(response18 == 1 && "map18 is not valid");
+    int playable18 = validate_map_playable(map18);
+    assert(playable18 == 1 && "map18 reads as non playable but it is playable");
+    free_parsed_map(map18);
+
+    // map 19.ber ************************************************************************************
+    int fd19 = open("maps/valid/19.ber", O_RDONLY);
+    t_file *file19 = ft_file_read_all(fd19);
+    assert(fd19 != -1 && "Could not open file 19.ber for testing");
+    close(fd19);
+    if (!file19)
+        return ;
+    t_parsed_map *map19 = parse_map(file19);
+    ft_file_free(&file19);
+    assert(map19 != NULL && "parse_map returned NULL for valid map19");
+    assert(map19->cells != NULL && "map19 cells are null, map not assigned");
+    int response19 = validate_map_contents(map19);
+    assert(map19->num_collectables != 0 && "map19 num_collectables is 0");
+    assert(response19 == 1 && "map19 is not valid");
+    int playable19 = validate_map_playable(map19);
+    assert(playable19 == 1 && "map19 reads as non playable but it is playable");
+    free_parsed_map(map19);
 }
 
 static void test_validate_map_playable_ko()
@@ -699,7 +787,7 @@ static void test_validate_map_playable_ko()
     free_parsed_map(map14);
 
      // map 27.ber ************************************************************************************
-    int fd27 = open("maps/invalid/27.ber", O_RDONLY);
+    int fd27 = open("maps/fail/27.ber", O_RDONLY);
     t_file *file27 = ft_file_read_all(fd27);
     close(fd27);
     if (!file27)
@@ -707,7 +795,9 @@ static void test_validate_map_playable_ko()
     t_parsed_map *map27 = parse_map(file27);
     ft_file_free(&file27);
     int contents27 = validate_map_contents(map27);
-    assert(contents27 == 0 && "map27 is not valid");
+    assert(contents27 == 1 && "map27 is not valid");
+    int playable27 = validate_map_playable(map27);
+    assert(playable27 == 0 && "map27 reads as playable but it is not playable");
     free_parsed_map(map27);
 
 
