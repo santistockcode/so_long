@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/12/27 17:07:42 by saalarco         ###   ########.fr        #
+#    Updated: 2024/12/30 08:29:17 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ TEST_GET_MAP_BIN     = ./$(TEST_DIR)/tests_get_map
 
 
 ################################################################################
-#                                  Makefile  objs                              #
+#                                  Makefile recipes                            #
 ################################################################################
 
 
@@ -79,30 +79,69 @@ libmlx:
 ${NAME}: ${OBJS}
 	@${CC} ${FLAGS} ${OBJS} ${LIBS} ${HEADERS} -o ${NAME}
 
-test: libft $(TEST_GET_MAP_BIN)
+
+################################################################################
+#                                  Tests                                       #
+################################################################################
+
+test_get_map: libft $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	@./$(TEST_DIR)/tests_get_map
-	@echo "$(GREEN)Tests passed!$(CLR_RMV)"
+	@./$(TEST_GET_MAP_BIN)
+	@echo "$(GREEN)Unit tests for get_map module passed!$(CLR_RMV)"
 
 $(TEST_GET_MAP_BIN): $(TEST_GET_MAP_SRCS)
 	$(CC) $(FLAGS) $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 
-tval: libft $(TEST_GET_MAP_BIN)
+# test_other_module...
+
+# $(TEST_OTER_MOUDLE_BIN)...
+
+tval_get_map: libft $(TEST_GET_MAP_BIN)
 	$(CC) $(FLAGS) $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_DIR)/tests_get_map
-	@echo "$(GREEN)Tests passed!$(CLR_RMV)"
+	@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			./$(TEST_GET_MAP_BIN)
+	@echo "$(GREEN)Tests valgrind get_map module passed!$(CLR_RMV)"
 
-tfsanitize: libft $(TEST_GET_MAP_BIN)
+tfsanitize_get_map: libft $(TEST_GET_MAP_BIN)
 	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	@./$(TEST_DIR)/tests_get_map
-	@echo "$(GREEN)Tests passed!$(CLR_RMV)"
+	@./$(TEST_GET_MAP_BIN)
+	@echo "$(GREEN)Tests fsanitize get_map module passed!$(CLR_RMV)"
 
-tlldb : libft $(TEST_GET_MAP_BIN)
+# utils lldb
+tlldb_get_map : libft $(TEST_GET_MAP_BIN)
 	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_GET_MAP_SRCS) $(LIBS) -o $(TEST_GET_MAP_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	lldb ./$(TEST_DIR)/tests_get_map
+	lldb ./$(TEST_GET_MAP_BIN)
+
+# test: test_get_map test_render  # add other module test targets
+#	@echo "$(GREEN)All tests in all modules passed!$(CLR_RMV)"
+
+# tval_all: tval_get_map tval_render
+# 	@echo "$(GREEN)All Valgrind tests passed for all modules!$(CLR_RMV)"
+
+# Mimic a full CI pipeline
+ci: clean
+	@echo "==> Building libraries..."
+	@$(MAKE) libft
+	@$(MAKE) libmlx
+
+	@echo "==> Building main project..."
+	@$(MAKE) all
+
+	@echo "==> Running get_map tests..."
+	@$(MAKE) test_get_map
+
+	@echo "==> Running Valgrind tests..."
+	@$(MAKE) tval_get_map
+
+	@echo "==> Running AddressSanitizer tests..."
+	@$(MAKE) tfsanitize_get_map
+
+	@echo "==> CI-like pipeline complete!"
 
 clean:
 	rm -rf ${LIBMLX}/build

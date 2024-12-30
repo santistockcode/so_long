@@ -191,7 +191,7 @@ static void test_parse_map_valid(void)
     free_parsed_map(map2);
 }
 
-void test_validate_map_content_ok(void)
+static void test_validate_map_content_ok(void)
 {
 	// map exists and has at least one P C and E
     int fd3 = open("maps/valid/3.ber", O_RDONLY);
@@ -240,7 +240,5 @@ int main(void)
     test_parse_map_invalid();	
     test_validate_map_content_ko();
 	test_validate_map_content_ok();
-    printf("\x1b[32mAll test_get_map tests went ok!\n\x1b[0m");
-
     return 0;
 }
