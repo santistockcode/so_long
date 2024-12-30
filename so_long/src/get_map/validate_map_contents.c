@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 12:14:29 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/30 13:00:29 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/30 19:38:56 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,20 @@ Creates a new position node for the list
 t_list	*create_position(int i, int j)
 {
 	t_position	*position_new;
+	t_list		*new_node;
 
 	position_new = (t_position *)malloc(sizeof(t_position));
 	if (position_new == NULL)
 		return (NULL);
 	position_new->x = (unsigned int)j;
 	position_new->y = (unsigned int)i;
-	return (ft_lstnew((t_position *)position_new));
+	new_node = ft_lstnew((t_position *)position_new);
+	if (new_node == NULL)
+	{
+		free(position_new);
+		return (NULL);
+	}
+	return (new_node);
 }
 
 /*

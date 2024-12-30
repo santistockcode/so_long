@@ -6,43 +6,68 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 08:40:34 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/30 14:21:21 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/30 19:57:13 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/so_long.h"
 
-/*
-Marks all the cells that are reachable from the player's starting position
-*/
-void	flood_fill_mark(char **map, unsigned int from_y, unsigned int from_x)
-{
-	if ((map[from_y][from_x] == WALL) || (map[from_y][from_x] & 0x80) != 0)
-		return ;
-	if (map[from_y][from_x] != NOWALL && map[from_y][from_x] != PLAYER
-		&& map[from_y][from_x] != EXITMAP && map[from_y][from_x] != COLLEC)
-		return ;
-	map[from_y][from_x] |= 0x80;
-	flood_fill_mark(map, from_y + 1, from_x);
-	flood_fill_mark(map, from_y - 1, from_x);
-	flood_fill_mark(map, from_y, from_x + 1);
-	flood_fill_mark(map, from_y, from_x - 1);
-	return ;
-}
+// /*
+// Recursive implementation of flood fill algorithm
+// Marks all the cells that are reachable from the player's starting position
+// */
+// void	flood_fill_mark(char **map, unsigned int from_y, unsigned int from_x)
+// {
+// 	if ((map[from_y][from_x] == WALL) || (map[from_y][from_x] & 0x80) != 0)
+// 		return ;
+// 	if (map[from_y][from_x] != NOWALL && map[from_y][from_x] != PLAYER
+// 		&& map[from_y][from_x] != EXITMAP && map[from_y][from_x] != COLLEC)
+// 		return ;
+// 	map[from_y][from_x] |= 0x80;
+// 	flood_fill_mark(map, from_y + 1, from_x);
+// 	flood_fill_mark(map, from_y - 1, from_x);
+// 	flood_fill_mark(map, from_y, from_x + 1);
+// 	flood_fill_mark(map, from_y, from_x - 1);
+// 	return ;
+// }
 
-/*
-Unmarks all the cells that are reachable from the player's starting position
-*/
-void	flood_fill_unmark(char **map, unsigned int from_y, unsigned int from_x)
+// /*
+// Recursive implementation of flood fill algorithm
+// Unmarks all the cells that are reachable from the player's starting position
+// */
+// void	flood_fill_unmark_from_player(char **map, unsigned int from_y,
+//		unsigned int from_x)
+// {
+// 	if ((map[from_y][from_x] == WALL) || (map[from_y][from_x] & 0x80) == 0)
+// 		return ;
+// 	map[from_y][from_x] &= 0x7F;
+// 	flood_fill_unmark(map, from_y + 1, from_x);
+// 	flood_fill_unmark(map, from_y - 1, from_x);
+// 	flood_fill_unmark(map, from_y, from_x + 1);
+// 	flood_fill_unmark(map, from_y, from_x - 1);
+// 	return ;
+// }
+
+// /*
+// Unmarks all the cells in the matrix
+// */
+static void	flood_fill_unmark(char **map, unsigned int height,
+		unsigned int width)
 {
-	if ((map[from_y][from_x] == WALL) || (map[from_y][from_x] & 0x80) == 0)
-		return ;
-	map[from_y][from_x] &= 0x7F;
-	flood_fill_unmark(map, from_y + 1, from_x);
-	flood_fill_unmark(map, from_y - 1, from_x);
-	flood_fill_unmark(map, from_y, from_x + 1);
-	flood_fill_unmark(map, from_y, from_x - 1);
-	return ;
+	unsigned int	r;
+	unsigned int	c;
+
+	r = 0;
+	while (r < height)
+	{
+		c = 0;
+		while (c < width)
+		{
+			map[r][c] &= 0x7F;
+			c++;
+		}
+		r++;
+	}
 }
 
 /*
@@ -81,6 +106,7 @@ int	are_collectables_reachable(t_parsed_map *map)
 
 /*
 Validates if the map is playable
+Important: do not call this function if map is not surrounded by walls
 */
 int	validate_map_playable(t_parsed_map *map)
 {
@@ -89,12 +115,12 @@ int	validate_map_playable(t_parsed_map *map)
 	flood_fill_mark(map->cells, map->player_start.y, map->player_start.x);
 	if (!is_exit_reachable(map) || !are_collectables_reachable(map))
 	{
-		flood_fill_unmark(map->cells, map->player_start.y, map->player_start.x);
+		flood_fill_unmark(map->cells, map->height, map->width);
 		return (FALSE);
 	}
 	else
 	{
-		flood_fill_unmark(map->cells, map->player_start.y, map->player_start.x);
+		flood_fill_unmark(map->cells, map->height, map->width);
 		return (TRUE);
 	}
 }

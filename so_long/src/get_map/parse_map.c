@@ -6,15 +6,15 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 13:19:41 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/30 09:06:28 by saalarco         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:52:24 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/so_long.h"
 
-/*
-Function initializes map_data struct
-*/
+// /*
+// Function initializes map_data struct
+// */
 static void	initialize_map_data(t_parsed_map *map_data)
 {
 	map_data->cells = NULL;

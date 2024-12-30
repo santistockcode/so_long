@@ -1,0 +1,3 @@
+3. BFS vs. DFS Order
+
+Semantically, this code is still BFS, because you’re always adding new nodes at the back (ft_lstadd_back) and popping from the front (front_node = list; list = list->next;). That’s the correct approach for BFS in a singly-linked list scenario. If you used ft_lstadd_front, you’d effectively do a DFS, but so_long typically doesn’t care about the exact order—just that you visit all reachable cells.

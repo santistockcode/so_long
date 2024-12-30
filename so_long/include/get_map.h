@@ -11,7 +11,6 @@
 # define EXITMAP 'E'
 # define COLLEC 'C'
 
-
 // map_data.h
 typedef struct s_position {
     unsigned int x;
@@ -31,12 +30,6 @@ typedef struct s_parsed_map {
 // Alloc t_parsed_map and minimal checks
 t_parsed_map *parse_map(t_file *file);
 
-// check has at least one player, exit, collectable
-// int check_has_player_exit_collectable(t_map_data *map_data);
-
-// check if collectables and exit are reachable
-//int check_pathfind(t_map_data *map_data);
-
 // validate map contents
 int validate_map_contents(t_parsed_map *map);
 
@@ -46,6 +39,7 @@ int	validate_map_playable(t_parsed_map *map);
 // free map data
 void free_parsed_map(t_parsed_map *map_data);
 
-// Valorar según haga pruebas si crear un .h para todos los borradores
+// flood fill with linked lists
+void flood_fill_mark(char **map, unsigned int from_y, unsigned int from_x);
 
 #endif

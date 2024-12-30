@@ -724,6 +724,24 @@ static void test_validate_map_playable_ok()
     int playable19 = validate_map_playable(map19);
     assert(playable19 == 1 && "map19 reads as non playable but it is playable");
     free_parsed_map(map19);
+
+    // map 20.ber ************************************************************************************
+    int fd20 = open("maps/valid/20.ber", O_RDONLY);
+    t_file *file20 = ft_file_read_all(fd20);
+    assert(fd20 != -1 && "Could not open file 20.ber for testing");
+    close(fd20);
+    if (!file20)
+        return ;
+    t_parsed_map *map20 = parse_map(file20);
+    ft_file_free(&file20);
+    assert(map20 != NULL && "parse_map returned NULL for valid map20");
+    assert(map20->cells != NULL && "map20 cells are null, map not assigned");
+    int response20 = validate_map_contents(map20);
+    assert(map20->num_collectables != 0 && "map20 num_collectables is 0");
+    assert(response20 == 1 && "map20 is not valid");
+    int playable20 = validate_map_playable(map20);
+    assert(playable20 == 1 && "map20 reads as non playable but it is playable");
+    free_parsed_map(map20);
 }
 
 static void test_validate_map_playable_ko()
