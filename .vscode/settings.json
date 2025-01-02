@@ -3,6 +3,7 @@
         "so_long.h": "c",
         "check_valid_map.h": "c",
         "libft.h": "c",
-        "mlx42.h": "c"
+        "mlx42.h": "c",
+        "get_map.h": "c"
     }
 }

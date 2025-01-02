@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:11:26 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/27 14:20:39 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/02 10:49:14 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@
 # include <errno.h>
 # include <string.h>
 
-# define ERROR_USAGE "Error\nIncorrect extension or number of params"
-# define ERROR_OPEN "Error: Failure to open file"
-# define ERROR_EMPTY "Error: empty file"
-# define ERROR_FETCH "Error: problem fetching map"
-# define ERROR_EXTENSION "Error: map extension incorrect"
-# define ERROR_MEMORY "Error: malloc failed"
-# define ERROR_MEASURE "Error: error measuring map"
-# define ERROR_IRREGULAR "Error: map not a rectangle"
+# define ERROR "Error\n"
+# define ERROR_ARGUMENT "Argument is not valid for the game"
+# define ERROR_USAGE "Incorrect extension or number of params\n"
+# define ERROR_OPEN "Failure to open file\n"
+# define ERROR_EMPTY "Problem reading the file\n"
+# define ERROR_PARSE "Empty, not a rectangle, no walls or invalid chars, error parsing the map\n"
+# define ERROR_EXTENSION "Map extension incorrect\n"
+# define ERROR_CONTENTS "Contents of map not valid\n"
+# define ERROR_PLAYABLE "Not a playable map under subject rules\n"
 # define FALSE		0
 # define TRUE		1
 
-int is_extension_correct(char *file);
+t_parsed_map *argument_valid(int argc, char **argv);
+
 
 #endif

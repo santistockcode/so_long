@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2024/12/30 17:22:14 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/02 09:45:57 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,8 @@ endif
 LIBMLX		= ./MLX42
 LIBFT		= ./libft
 
-# LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a 
-LIBS = ${LIBFT}/libft.a
+LIBS	= ${LIBMLX}/build/libmlx42.a -ldl -lglfw -pthread -lm ${LIBFT}/libft.a 
+# LIBS = ${LIBFT}/libft.a
 
 
 ################################################################################
@@ -38,9 +38,12 @@ LIBS = ${LIBFT}/libft.a
 ################################################################################
 
 SRCS		= src/so_long.c \
-	src/arguments_valid.c \
+	src/argument_valid.c \
 	src/get_map/free_parsed_map.c \
-	src/get_map/parse_map.c
+	src/get_map/parse_map.c \
+	src/get_map/validate_map_contents.c \
+	src/get_map/validate_map_playable.c \
+	src/get_map/flood_fill.c
                          
 OBJS        := $(SRCS:.c=.o)
 
