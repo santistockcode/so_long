@@ -1,3 +1,7 @@
+# How to valgrind
+
+## Example makefile 
+```makefile
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -6,7 +10,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/03 18:38:35 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/03 17:23:30 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +47,7 @@ SRCS		= src/so_long.c \
 	src/get_map/parse_map.c \
 	src/get_map/validate_map_contents.c \
 	src/get_map/validate_map_playable.c \
-	src/get_map/flood_fill.c \
-	src/window.c
+	src/get_map/flood_fill.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -153,13 +156,7 @@ tval_window: libft libmlx $(TEST_WINDOW_BIN)
 			--suppressions=mlx_dl.supp \
 			--log-file=tests/valgrind_window.log \
 			./$(TEST_WINDOW_BIN)
-	@echo "$(YELLOW)Checking Valgrind log for definitely lost leaks...$(CLR_RMV)"
-	# Parse the log to see if “definitely lost” is non-zero.
-	@grep -q "definitely lost: 0 bytes in 0 blocks" tests/valgrind_window.log && \
-		echo "$(GREEN)No definite leaks found!$(CLR_RMV)" || \
-		( echo "$(RED)Definite leaks found! Check tests/valgrind_window.log$(CLR_RMV)" ; exit 1 )
-
-	@echo "$(BLUE)Valgrind test for window module complete!$(CLR_RMV)"
+	@echo "$(GREEN)Tests valgrind window module passed! $(CLR_RMV)$(BLUE)but you better check the output above$(CLR_RMV)"
 
 tfsanitize_window: libft libmlx $(TEST_WINDOW_BIN)
 	$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
@@ -181,22 +178,24 @@ tval_hello_world: libft libmlx $(TEST_HELLO_WORLD_BIN)
 	@valgrind  --leak-check=full \
 			--show-leak-kinds=all \
 			--track-origins=yes \
-			--log-file=tests/valgrind_hello_world.log \
+			--log-file=valgrind_hello_world.log \
 			./$(TEST_HELLO_WORLD_BIN)
-	@echo "$(YELLOW)Checking Valgrind log for definitely lost leaks...$(CLR_RMV)"
-	@grep -q "definitely lost: 0 bytes in" tests/valgrind_hello_world.log && \
-		echo "$(GREEN)No definite leaks found!$(CLR_RMV)" || \
-		( echo "$(RED)Definite leaks found! Check tests/valgrind_hello_world.log$(CLR_RMV)" ; exit 1 )
+	@echo "$(GREEN)Tests valgrind hello_world module passed! $(CLR_RMV)$(BLUE)but you better check the output above$(CLR_RMV)"
 
-	@echo "$(BLUE)Valgrind test for window module complete!$(CLR_RMV)"
+# test: test_get_map test_render  # add other module test targets
+#	@echo "$(GREEN)All tests in all modules passed!$(CLR_RMV)"
 
-# TODO: library libft and limlx directly from git
+# tval_all: tval_get_map tval_render
+# 	@echo "$(GREEN)All Valgrind tests passed for all modules!$(CLR_RMV)"
 
 # Mimic a full CI pipeline
 ci: clean
 	@echo "==> Building libraries..."
 	@$(MAKE) libft
 	@$(MAKE) libmlx
+
+	@echo "==> Building main project..."
+	@$(MAKE) all
 
 	@echo "==> Running get_map tests..."
 	@$(MAKE) test_get_map
@@ -206,15 +205,6 @@ ci: clean
 
 	@echo "==> Running AddressSanitizer tests..."
 	@$(MAKE) tfsanitize_get_map
-
-	@echo "==> Running window tests..."
-	@$(MAKE) test_window
-
-	@echo "==> Running Valgrind window tests..."
-	@$(MAKE) tval_window
-
-	@echo "==> Building main project..."
-	@$(MAKE) all
 
 	@echo "==> CI-like pipeline complete!"
 
@@ -234,3 +224,135 @@ fclean: clean
 re: clean all
 
 .PHONY: all clean fclean re libmlx libft
+```
+
+## Examples of Using Valgrind
+
+Valgrind is a powerful tool for detecting memory leaks and other memory-related errors in C programs. Here are some examples of how to use Valgrind in the context of the provided Makefile:
+
+### Running Valgrind Tests for the `get_map` Module
+
+To run Valgrind tests for the `get_map` module, use the following command:
+
+```bash
+make tval_get_map
+```
+
+This command will compile the test code for the `get_map` module and run it with Valgrind. Valgrind will perform memory leak checks, track memory origins, and generate a log file (`tests/valgrind_get_map.log`) with the results.
+
+### Running Valgrind Tests for the `window` Module
+
+To run Valgrind tests for the `window` module, use the following command:
+
+```bash
+make tval_window
+```
+
+This command will compile the test code for the `window` module and run it with Valgrind. Valgrind will perform memory leak checks, suppress known issues related to the `mlx` library, and generate a log file (`tests/valgrind_window.log`) with the results.
+
+### Running Valgrind Tests for the `hello_world` Module
+
+To run Valgrind tests for the `hello_world` module, use the following command:
+
+```bash
+make tval_hello_world
+```
+
+This command will compile the test code for the `hello_world` module and run it with Valgrind. Valgrind will perform memory leak checks, track memory origins, and generate a log file (`valgrind_hello_world.log`) with the results.
+
+Remember to check the output of the Valgrind tests for any memory-related issues or errors. Valgrind can help you identify and fix potential memory leaks and other memory-related bugs in your C programs.
+
+## Flags Used in Valgrind Commands
+
+--leak-check=full: This flag enables detailed memory leak checking. Valgrind will provide information about all memory leaks detected, including the stack trace of the allocation.
+
+--show-leak-kinds=all: With this flag, Valgrind will display information about all types of memory leaks, including reachable, indirect, and definitely lost memory.
+
+--track-origins=yes: Enabling this flag allows Valgrind to track the origin of uninitialized values. It can help identify the source of uninitialized memory errors.
+
+--quiet: This flag suppresses unnecessary output from Valgrind, making the test results easier to read.
+
+--tool=memcheck: This flag specifies the Valgrind tool to use. In this case, we are using the memcheck tool, which is the default tool for detecting memory errors.
+
+--keep-debuginfo=yes: Enabling this flag preserves the debug information in the executable, allowing Valgrind to provide more accurate and detailed error reports.
+
+## How to use valgrind to generate supressions file
+
+Use a Suppression File
+
+    Generate Suppressions:
+    Run:
+
+valgrind --leak-check=full \
+         --show-leak-kinds=all \
+         --gen-suppressions=all \
+         --log-file=valgrind_supp.log \
+         ./your_executable
+
+Then copy the relevant suppression blocks from valgrind_supp.log into a file, e.g. mlx.supp, like this example: 
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:malloc
+   fun:_dl_find_object_update
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+   fun:_dl_catch_exception
+   fun:_dl_open
+   fun:dlopen_doit
+   fun:_dl_catch_exception
+   fun:_dl_catch_error
+   fun:_dlerror_run
+   fun:dlopen_implementation
+   fun:dlopen@@GLIBC_2.34
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:strncmp
+   fun:is_dst
+   fun:_dl_dst_substitute
+   fun:fillin_rpath.isra.0
+   fun:decompose_rpath
+   fun:cache_rpath
+   fun:cache_rpath
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:strncmp
+   fun:is_dst
+   fun:_dl_dst_count
+   fun:expand_dynamic_string_token
+   fun:fillin_rpath.isra.0
+   fun:decompose_rpath
+   fun:cache_rpath
+   fun:cache_rpath
+   fun:_dl_map_object
+   fun:openaux
+   fun:_dl_catch_exception
+   fun:_dl_map_object_deps
+   fun:dl_open_worker_begin
+   fun:_dl_catch_exception
+   fun:dl_open_worker
+}
+
+Apply the Suppressions:
+
+valgrind --leak-check=full \
+         --show-leak-kinds=all \
+         --suppressions=mlx.supp \
+         ./your_executable
+
+Now Valgrind won’t list known library allocations as leaks, making your logs much cleaner.

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saalarco <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/03 18:47:11 by saalarco          #+#    #+#             */
+/*   Updated: 2025/01/03 18:47:13 by saalarco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // // render.c
 // #include "render.h"
 
@@ -6,7 +18,8 @@
 //     game->player_texture = mlx_load_png("textures/player.png");
 //     game->exit_texture = mlx_load_png("textures/exit.png");
 //     game->collectible_texture = mlx_load_png("textures/collectible.png");
-//     if (!game->wall_texture || !game->player_texture || !game->exit_texture || !game->collectible_texture) {
+//     if (!game->wall_texture || !game->player_texture || !game->exit_texture
+//	|| !game->collectible_texture) {
 //         fprintf(stderr, "Error: Failed to load textures.\n");
 //         exit(EXIT_FAILURE);
 //     }
@@ -23,9 +36,12 @@
 //             else if (tile == 'E') texture = game->exit_texture;
 
 //             if (texture) {
-//                 mlx_image_t *image = mlx_texture_to_image(game->mlx, texture);
-//                 mlx_image_to_window(game->mlx, image, x * TILE_SIZE, y * TILE_SIZE);
-//                 mlx_delete_image(game->mlx, image); // Clean up after rendering.
+//                 mlx_image_t *image = mlx_texture_to_image(game->mlx,
+//		texture);
+//                 mlx_image_to_window(game->mlx, image, x * TILE_SIZE, y
+//	* TILE_SIZE);
+//                 mlx_delete_image(game->mlx, image);
+	// Clean up after rendering.
 //             }
 //         }
 //     }

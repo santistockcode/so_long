@@ -1,6 +1,6 @@
 #ifndef RENDER_H
 #define RENDER_H
-# include <../MLX42/include/MLX42/MLX42.h>
+# include "../MLX42/include/MLX42/MLX42.h"
 #include "game.h"
 #include <stdio.h>
 #include <stdlib.h>

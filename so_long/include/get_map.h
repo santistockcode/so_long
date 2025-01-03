@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saalarco <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:48:56 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/02 13:48:58 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:18:40 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "../libft/include/libft.h"
+# include "../MLX42/include/MLX42/MLX42.h"
+# include "common.h"
+
 
 # define WALL '1'
 # define NOWALL '0'

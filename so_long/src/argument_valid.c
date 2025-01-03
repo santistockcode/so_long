@@ -6,20 +6,19 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 10:01:14 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/02 10:14:19 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/03 18:31:40 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/so_long.h"
+#include "../include/so_long.h"
 
-static int	report_error_argument_valid(const char *msg, t_parsed_map *map,
+static void	report_error_argument_valid(const char *msg, t_parsed_map *map,
 		int free_map)
 {
 	ft_putstr_fd((char *) ERROR, 1);
 	ft_putstr_fd((char *) msg, 1);
 	if (free_map)
 		free_parsed_map(map);
-	return (0);
 }
 
 // Function to check file extension

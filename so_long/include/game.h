@@ -2,8 +2,7 @@
 // game.h
 #ifndef GAME_H
 #define GAME_H
-# include <../MLX42/include/MLX42/MLX42.h>
-# include <get_map.h>
+# include "../MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_game
 {
