@@ -12,6 +12,8 @@
 # define ERROR_PLAYABLE "Not a playable map under subject rules\n"
 # define ERROR_SCREEN "Map does not fit screen size\n"
 # define ERROR_MLX_WINDOW "Failed to initialize window\n"
+# define ERROR_TEXTURE "Failed to load textures\n"
+# define ERROR_IMAGES "Failed to load images\n"
 # define FALSE 0
 # define TRUE 1
 # define MAX_MONITOR_WIDTH 3840

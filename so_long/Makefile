@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/08 14:32:13 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/08 17:58:36 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,6 +96,17 @@ TEST_COMMON_BIN		= $(TEST_DIR)/tests_common
 TEST_HELLO_WORLD_SRCS = $(TEST_DIR)/test_hello_world.c 
 TEST_HELLO_WORLD_BIN = $(TEST_DIR)/tests_hello_world
 
+TEST_RENDER_SRCS = $(TEST_DIR)/integrate_render.c \
+	src/argument_valid.c \
+	src/get_map/free_parsed_map.c \
+	src/get_map/parse_map.c \
+	src/get_map/validate_map_contents.c \
+	src/get_map/validate_map_playable.c \
+	src/get_map/flood_fill.c \
+	src/common.c \
+	src/window.c
+TEST_RENDER_BIN = $(TEST_DIR)/integrate_render
+
 ###############################################################################
 #                              DEFAULT RULES                                  #
 ###############################################################################
@@ -125,7 +136,7 @@ $(LIBFT_LIB):
 
 $(MLX_LIB):
 	@echo "Building MLX..."
-	@cmake -S $(LIBMLX) -B $(LIBMLX)/build
+	@cmake -DDEBUG=1 -DGLFW_FETCH=0 -S $(LIBMLX) -B $(LIBMLX)/build
 	@make -C $(LIBMLX)/build -j4
 
 ###############################################################################
@@ -235,6 +246,31 @@ tval_hello_world: $(TEST_HELLO_WORLD_BIN) $(LIBFT_LIB) $(MLX_LIB)
 
 	@echo "$(BLUE)Valgrind test for window module complete!$(CLR_RMV)"
 
+##
+## integration-test) render
+##
+$(TEST_RENDER_BIN): $(TEST_RENDER_SRCS)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_RENDER_SRCS) $(LIBS) -o $(TEST_RENDER_BIN)
+
+test_i_render: $(TEST_RENDER_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	@echo "$(YELLOW)Running integration tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_RENDER_BIN)
+	@echo "$(GREEN)Integration tests for render module passed!$(CLR_RMV)"
+
+test_i_lldbrender: $(TEST_RENDER_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_RENDER_SRCS) $(LIBS) -o $(TEST_RENDER_BIN)
+	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
+	lldb ./$(TEST_RENDER_BIN)
+
+test_i_valrender: $(TEST_RENDER_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_RENDER_SRCS) $(LIBS) -o $(TEST_RENDER_BIN)
+	@echo "$(YELLOW)Running valgrind integration tests...$(CLR_RMV)"
+	$(SILENT)@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			--log-file=tests/valgrind_render.log \
+			./$(TEST_RENDER_BIN)
+	@echo "$(GREEN)Tests valgrind render module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
 
 
 ###############################################################################
@@ -286,6 +322,7 @@ fclean: clean
 	$(SILENT)rm -rf $(TEST_WINDOW_BIN)
 	$(SILENT)rm -rf $(TEST_COMMON_BIN)
 	$(SILENT)rm -rf $(TEST_HELLO_WORLD_BIN)
+	$(SILENT)rm -rf $(TEST_RENDER_BIN)
 
 re: fclean all
 

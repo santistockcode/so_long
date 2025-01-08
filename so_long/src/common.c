@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:27:19 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/08 13:35:25 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:54:32 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@ void	ft_error(char *msg)
 	{
 		ft_putstr_fd("Error:\n", STDERR_FILENO);
 		ft_putstr_fd(msg, STDERR_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
-	}
-	if (errno)
-	{
-		ft_putstr_fd("Error:\n", STDERR_FILENO);
-		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}
 	if (mlx_errno)

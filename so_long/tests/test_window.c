@@ -31,6 +31,7 @@ void test_is_screen_size_valid_ok(t_parsed_map *map)
 
 int main(void)
 {
+
     // fits_screen_size
     // prepare
     // map h.ber ************************************************************************************
@@ -100,8 +101,8 @@ int main(void)
     mlx_t* window5 = init_window(width5, height5, MLX42_TITLE);
     assert(window5 != NULL && "Failed to initialize window");
     close_window(window5);
-    
-    // UNCOMMENT: and see that mlx_errno is correctly reported
+
+    // uncomment for exit program at this point
     // int width2 = 1000;
     // int height2 = 500;
     // mlx_t* window2 = init_window(width2, height2, "Window NOT CREATED");
