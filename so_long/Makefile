@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/03 18:38:35 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/08 13:05:41 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,9 +70,15 @@ TEST_WINDOW_SRCS	= $(TEST_DIR)/test_window.c \
 
 TEST_WINDOW_BIN		= ./$(TEST_DIR)/tests_window
 
+TEST_COMMON_SRCS	= $(TEST_DIR)/test_common.c
+
+TEST_COMMON_BIN		= ./$(TEST_DIR)/tests_common
+
+
 TEST_HELLO_WORLD_SRCS = $(TEST_DIR)/test_hello_world.c 
 
 TEST_HELLO_WORLD_BIN = ./$(TEST_DIR)/tests_hello_world
+
 
 
 ################################################################################
@@ -172,6 +178,8 @@ tlldb_window : libft libmlx $(TEST_WINDOW_BIN)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
 	lldb ./$(TEST_WINDOW_BIN)
 
+# hello_world lmx module
+
 $(TEST_HELLO_WORLD_BIN): $(TEST_HELLO_WORLD_SRCS)
 	$(CC) $(FLAGS) $(INCLUDES) $(TEST_HELLO_WORLD_SRCS) $(LIBS) -o $(TEST_HELLO_WORLD_BIN)
 
@@ -189,6 +197,16 @@ tval_hello_world: libft libmlx $(TEST_HELLO_WORLD_BIN)
 		( echo "$(RED)Definite leaks found! Check tests/valgrind_hello_world.log$(CLR_RMV)" ; exit 1 )
 
 	@echo "$(BLUE)Valgrind test for window module complete!$(CLR_RMV)"
+
+# common tests
+test_common: libft libmlx $(TEST_COMMON_BIN)
+	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
+	@./$(TEST_COMMON_BIN)
+	@echo "$(GREEN)Unit tests for common module passed!$(CLR_RMV)"
+
+$(TEST_COMMON_BIN): $(TEST_COMMON_SRCS)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_COMMON_SRCS) $(LIBS) -o $(TEST_COMMON_BIN)
+
 
 # TODO: library libft and limlx directly from git
 
@@ -212,6 +230,9 @@ ci: clean
 
 	@echo "==> Running Valgrind window tests..."
 	@$(MAKE) tval_window
+
+	@echo "==> Running common tests..."
+	@$(MAKE) test_common
 
 	@echo "==> Building main project..."
 	@$(MAKE) all

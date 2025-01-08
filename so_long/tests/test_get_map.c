@@ -2,7 +2,7 @@
 #include "../include/get_map.h"
 #include <assert.h>
 
-static void test_parse_map_invalid(void)
+static void test_parse_map_ko(void)
 {
     // empty
     int fd0 = open("maps/invalid/0.ber", O_RDONLY);
@@ -267,7 +267,7 @@ static void test_validate_map_content_ko(void)
     free_parsed_map(map28);
 }
 
-static void test_parse_map_valid(void)
+static void test_parse_map_ok(void)
 {
     // map exists 
     int fd0 = open("maps/valid/0.ber", O_RDONLY);
@@ -825,8 +825,8 @@ static void test_validate_map_playable_ko()
 // TODO: distinguish between CI tests and how-to-use examples, that is refine scope and decouple
 int main(void)
 {
-    test_parse_map_valid();
-    test_parse_map_invalid();	
+    test_parse_map_ok();
+    test_parse_map_ko();	
     test_validate_map_content_ko();
 	test_validate_map_content_ok();
 
