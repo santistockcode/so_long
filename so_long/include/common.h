@@ -19,6 +19,6 @@
 # define IMAGE_SIZE 64
 # define MLX42_TITLE "So Long"
 
-void	error(const char *msg);
+void	ft_error(char *msg);
 
 #endif

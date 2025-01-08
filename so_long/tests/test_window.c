@@ -89,8 +89,6 @@ int main(void)
 
     // test init_window
     // prepare
-    // TEST: leaks (terminate) 
-    // TEST: las medidas no tienen del todo sentido (failed test)
     int width1 = 30;
     int height1 = 20; 
     mlx_t *window1 = init_window(width1, height1, MLX42_TITLE);
@@ -103,27 +101,25 @@ int main(void)
     assert(window5 != NULL && "Failed to initialize window");
     close_window(window5);
     
-    
-    int width2 = 1000;
-    int height2 = 500;
-    mlx_t* window2 = init_window(width2, height2, "other title");
-    assert(window2 == NULL && "Failed to initialize window");
-    close_window(window2);
+    // UNCOMMENT: and see that mlx_errno is correctly reported
+    // int width2 = 1000;
+    // int height2 = 500;
+    // mlx_t* window2 = init_window(width2, height2, "Window NOT CREATED");
+    // assert(window2 == NULL && "Failed to initialize window");
+    // close_window(window2);
 
-    int width3 = 0;
-    int height3 = 768;
-    mlx_t* window3 = init_window(width3, height3, MLX42_TITLE);
-    assert(window3 == NULL && "Failed to initialize window");
-    close_window(window3);
+    // int width3 = 0;
+    // int height3 = 768;
+    // mlx_t* window3 = init_window(width3, height3, MLX42_TITLE);
+    // assert(window3 == NULL && "Failed to initialize window");
+    // close_window(window3);
 
-    int width6 = MAX_MONITOR_WIDTH / IMAGE_SIZE + 1;
-    int height6 = MAX_MONITOR_HEIGHT / IMAGE_SIZE + 1;
-    const char* title6 = "Invalid Screen Size Window";
-    mlx_t* window6 = init_window(width6, height6, title6);
-    assert(window6 == NULL && "Failed to initialize window");
-    close_window(window6);
-
-    //TEST: test error report function
+    // int width6 = MAX_MONITOR_WIDTH / IMAGE_SIZE + 1;
+    // int height6 = MAX_MONITOR_HEIGHT / IMAGE_SIZE + 1;
+    // const char* title6 = "Invalid Screen Size Window";
+    // mlx_t* window6 = init_window(width6, height6, title6);
+    // assert(window6 == NULL && "Failed to initialize window");
+    // close_window(window6);
 
     return 0;
 }

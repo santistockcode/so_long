@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:15:16 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/07 16:52:55 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/08 13:15:09 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	main(int argc, char **argv)
 	mlx_t			*mlx;
 
 	map = argument_valid(argc, argv);
-	if (!map)
-		return (ft_printf(ERROR_ARGUMENT), 0);
+	// if (!map)
+	// 	return (ft_printf(ERROR_ARGUMENT), 0);
 	ft_printf("Map is good \n");
 	mlx = init_window(map->width, map->height, MLX42_TITLE);
 	// protect

@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 13:48:08 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/03 18:35:35 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/08 13:15:47 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "game.h"
 # include "render.h"
 # include "common.h"
+# include "colors.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>

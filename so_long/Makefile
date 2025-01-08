@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/08 13:05:41 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/08 13:36:14 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS		= src/so_long.c \
 	src/get_map/validate_map_contents.c \
 	src/get_map/validate_map_playable.c \
 	src/get_map/flood_fill.c \
+	src/common.c \
 	src/window.c
                          
 OBJS        := $(SRCS:.c=.o)
@@ -56,6 +57,7 @@ TEST_GET_MAP_SRCS  	= $(TEST_DIR)/test_get_map.c \
 	src/get_map/parse_map.c \
 	src/get_map/validate_map_contents.c \
 	src/get_map/validate_map_playable.c \
+	src/common.c \
 	src/get_map/flood_fill.c
 	
 TEST_GET_MAP_BIN     = ./$(TEST_DIR)/tests_get_map
@@ -66,6 +68,7 @@ TEST_WINDOW_SRCS	= $(TEST_DIR)/test_window.c \
 	src/get_map/validate_map_contents.c \
 	src/get_map/validate_map_playable.c \
 	src/get_map/flood_fill.c \
+	src/common.c \
 	src/window.c
 
 TEST_WINDOW_BIN		= ./$(TEST_DIR)/tests_window
