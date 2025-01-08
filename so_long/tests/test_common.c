@@ -106,7 +106,7 @@ int test_output_stderr(char *msg, char *expected_output)
     if (n > 0)
     {
         buffer[n] = '\0';
-        printf("Captured from STDERR: %s\n", buffer);
+        // printf("Captured from STDERR: %s\n", buffer);
         return (strcmp(buffer, expected_output) == 0);
     }
 
