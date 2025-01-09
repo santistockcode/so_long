@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/09 13:01:59 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/09 17:05:01 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -230,6 +230,22 @@ test_common: $(TEST_COMMON_BIN) $(LIBFT_LIB) $(MLX_LIB)
 $(TEST_COMMON_BIN): $(TEST_COMMON_SRCS)
 	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_COMMON_SRCS) $(LIBS) -o $(TEST_COMMON_BIN)
 
+tval_common: $(TEST_COMMON_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_COMMON_SRCS) $(LIBS) -o $(TEST_COMMON_BIN)
+	@echo "$(YELLOW)Running valgrind common tests...$(CLR_RMV)"
+	$(SILENT)@valgrind --leak-check=full \
+			--show-leak-kinds=all \
+			--track-origins=yes \
+			--log-file=tests/valgrind_common.log \
+			./$(TEST_COMMON_BIN)
+	@echo "$(GREEN)Tests valgrind common module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
+
+tfsanitize_common: $(TEST_COMMON_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(SILENT)$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_COMMON_SRCS) $(LIBS) -o $(TEST_COMMON_BIN)
+	@echo "$(YELLOW)Running fsanitize common tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_COMMON_BIN)
+	@echo "$(GREEN)Tests fsanitize common module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
+
 ##
 ## how-to) hello_world tests (example)
 ##
@@ -277,6 +293,12 @@ test_i_valrender: $(TEST_RENDER_BIN) $(LIBFT_LIB) $(MLX_LIB)
 			./$(TEST_RENDER_BIN)
 	@echo "$(GREEN)Tests valgrind render module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
 
+test_i_fsanrender: $(TEST_RENDER_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(SILENT)$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_RENDER_SRCS) $(LIBS) -o $(TEST_RENDER_BIN)
+	@echo "$(YELLOW)Running fsanitize integration tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_RENDER_BIN)
+	@echo "$(GREEN)Tests fsanitize render module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
+
 
 ###############################################################################
 #                              CI-LIKE PIPELINE                               #
@@ -301,8 +323,17 @@ ci: fclean $(LIBFT_LIB) $(MLX_LIB)
 	@echo "==> Module Valgrind window tests..."
 	$(SILENT)$(MAKE) tval_window
 
+	@echo "==> Module FSanitize window tests..."
+	$(SILENT)$(MAKE) tfsanitize_window
+
 	@echo "==> Module common tests..."
 	$(SILENT)$(MAKE) test_common
+
+	@echo "==> Module Valgrind common tests..."
+	$(SILENT)$(MAKE) tval_common
+
+	@echo "==> Module FSanitize common tests..."
+	$(SILENT)$(MAKE) tfsanitize_common
 
 	@echo "==> Building main project..."
 	$(SILENT)$(MAKE) all
