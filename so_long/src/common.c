@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 16:27:19 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/08 16:54:32 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/09 12:44:43 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,3 +30,5 @@ void	ft_error(char *msg)
 	ft_putstr_fd(NORMAL, STDERR_FILENO);
 	exit (EXIT_FAILURE);
 }
+
+

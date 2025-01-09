@@ -1,6 +1,5 @@
 #include "../MLX42/include/MLX42/MLX42.h"
-#include "../include/get_map.h"
-#include "../include/render.h"
+# include "../libft/include/libft.h"
 #include "../include/so_long.h"
 #include <assert.h>
 #include <stdio.h>
@@ -10,16 +9,16 @@
 static const char	*files[] = {"textures/player.png", "textures/nowall.png",
 		"textures/wall.png", "textures/collec.png", "textures/exit.png", NULL};
 
-static void	render_map(t_game *game)
+void	render_map(t_game *game)
 {
     int	x;
     int	y;
 
     y = 0;
-    while (y < game->map_height)
+    while (y < game->map->height)
     {
         x = 0;
-        while (x < game->map_width)
+        while (x < game->map->width)
         {
             if (game->map->cells[y][x] == WALL)
                 mlx_image_to_window(game->mlx, game->wall_image, x * IMAGE_SIZE,
@@ -90,8 +89,6 @@ int	main(void)
 	game = calloc(1, sizeof(t_game));
 	game->map = map9;
 	game->mlx = window9;
-	game->map_width = map9->width;
-	game->map_height = map9->height;
 	mock_load_textures(game);
 	mock_load_images(game);
 	render_map(game);

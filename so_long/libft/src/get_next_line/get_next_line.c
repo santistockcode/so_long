@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 19:29:53 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/21 12:16:45 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/09 12:41:59 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static char	*read_one_line(int fd, char *left)
 	char	*buff;
 	char	*temp;
 
-	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buff = ft_gnl_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buff)
 		return (free (buff), NULL);
 	bytes_read = 1;

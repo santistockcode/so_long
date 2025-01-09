@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/08 17:58:36 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/09 13:01:59 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,10 @@ SRCS		= src/so_long.c \
 	src/get_map/validate_map_playable.c \
 	src/get_map/flood_fill.c \
 	src/common.c \
-	src/window.c
+	src/window.c \
+	src/display_mlx.c \
+	src/render/images_textures.c \
+	src/render/images_textures_utils.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -118,12 +121,12 @@ all: $(NAME)
 # Compile the main executable 
 $(NAME): $(OBJS) $(LIBFT_LIB) $(MLX_LIB)
 	@echo "$(BLUE)[Linking]$(CLR_RMV) $@"
-	$(SILENT)$(CC) $(CFLAGS) $^ $(LIBS) $(HEADERS) -o $@
+	$(SILENT)$(CC) $(FLAGS) $^ $(LIBS) $(HEADERS) -o $@
 
 # Generic rule to build object files from .c
 %.o: %.c
 	@echo "$(GREEN)[Compiling]$(CLR_RMV) $<"
-	$(SILENT)$(CC) $(CFLAGS) -c $< -o $@ $(HEADERS)
+	$(SILENT)$(CC) $(FLAGS) -c $< -o $@ $(HEADERS)
 
 ###############################################################################
 #                              LIBRARIES                                      #
@@ -138,6 +141,8 @@ $(MLX_LIB):
 	@echo "Building MLX..."
 	@cmake -DDEBUG=1 -DGLFW_FETCH=0 -S $(LIBMLX) -B $(LIBMLX)/build
 	@make -C $(LIBMLX)/build -j4
+
+
 
 ###############################################################################
 #                              TESTS                                          #
@@ -249,7 +254,7 @@ tval_hello_world: $(TEST_HELLO_WORLD_BIN) $(LIBFT_LIB) $(MLX_LIB)
 ##
 ## integration-test) render
 ##
-$(TEST_RENDER_BIN): $(TEST_RENDER_SRCS)
+$(TEST_RENDER_BIN): $(TEST_RENDER_SRCS) $(LIBFT_LIB) $(MLX_LIB)
 	$(CC) $(FLAGS) $(INCLUDES) $(TEST_RENDER_SRCS) $(LIBS) -o $(TEST_RENDER_BIN)
 
 test_i_render: $(TEST_RENDER_BIN) $(LIBFT_LIB) $(MLX_LIB)

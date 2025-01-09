@@ -1,6 +1,10 @@
 #ifndef COMMON_H
 # define COMMON_H
 
+# include "../MLX42/include/MLX42/MLX42.h"
+# include "../libft/include/libft.h"
+#include "game.h"
+
 # define ERROR "Error\n"
 # define ERROR_ARGUMENT "Argument is not valid for the game"
 # define ERROR_USAGE "Incorrect extension or number of params\n"
@@ -14,6 +18,8 @@
 # define ERROR_MLX_WINDOW "Failed to initialize window\n"
 # define ERROR_TEXTURE "Failed to load textures\n"
 # define ERROR_IMAGES "Failed to load images\n"
+# define ERROR_MALLOC "Failed to allocate memory\n"
+# define ERROR_UNKNOWN "Error unknown\n"
 # define FALSE 0
 # define TRUE 1
 # define MAX_MONITOR_WIDTH 3840

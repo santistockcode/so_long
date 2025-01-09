@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 19:34:09 by saalarco          #+#    #+#             */
-/*   Updated: 2024/12/21 12:16:24 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/09 12:41:50 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	*ft_memmove(void *destination, const void *source, size_t len)
 }
 
 // calloc from libft
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_gnl_calloc(size_t count, size_t size)
 {
 	void	*result;
 	size_t	i;
