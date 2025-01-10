@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 12:30:22 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/09 13:06:14 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:43:24 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,15 @@ static void	ft_image_to_window(t_game *game, int x, int y)
 	if (game->map->cells[y][x] == WALL)
 		mlx_image_to_window(game->mlx, game->wall_image, x * IMAGE_SIZE, y
 			* IMAGE_SIZE);
-	else if (game->map->cells[y][x] == NOWALL)
+	else if (game->map->cells[y][x] == NOWALL
+		|| game->map->cells[y][x] == PLAYER || game->map->cells[y][x] == COLLEC
+		|| game->map->cells[y][x] == EXITMAP)
 		mlx_image_to_window(game->mlx, game->nowall_image, x * IMAGE_SIZE, y
 			* IMAGE_SIZE);
-	else if (game->map->cells[y][x] == PLAYER)
-		mlx_image_to_window(game->mlx, game->player_image, x * IMAGE_SIZE, y
-			* IMAGE_SIZE);
-	else if (game->map->cells[y][x] == COLLEC)
+	if (game->map->cells[y][x] == COLLEC)
 		mlx_image_to_window(game->mlx, game->collectible_image, x * IMAGE_SIZE,
 			y * IMAGE_SIZE);
-	else if (game->map->cells[y][x] == EXITMAP)
+	if (game->map->cells[y][x] == EXITMAP)
 		mlx_image_to_window(game->mlx, game->exit_image, x * IMAGE_SIZE, y
 			* IMAGE_SIZE);
 }
@@ -90,4 +89,14 @@ void	render_map(t_game *game)
 		}
 		y++;
 	}
+}
+
+/*
+mlx42 assigns z in order of creation of the image
+so player needs to be the last one to be on top
+*/
+void	render_player(t_game *game)
+{
+	mlx_image_to_window(game->mlx, game->player_image, game->p_x * IMAGE_SIZE,
+		game->p_y * IMAGE_SIZE);
 }

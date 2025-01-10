@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/10 12:06:43 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/10 16:46:50 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,10 @@ SRCS		= src/so_long.c \
 	src/window_mlx.c \
 	src/display_mlx.c \
 	src/render/images_textures.c \
-	src/render/images_textures_utils.c
+	src/render/images_textures_utils.c \
+	src/hooks_mlx.c \
+	src/game_logic/movements.c \
+	src/game_logic/exit_conditions.c
                          
 OBJS        := $(SRCS:.c=.o)
 
@@ -109,6 +112,17 @@ TEST_RENDER_SRCS = $(TEST_DIR)/itest_render.c \
 	src/common.c \
 	src/window_mlx.c
 TEST_RENDER_BIN = $(TEST_DIR)/itest_render
+
+TEST_HOOKS_SRCS = $(TEST_DIR)/itest_hooks.c \
+	src/argument_valid.c \
+	src/get_map/free_parsed_map.c \
+	src/get_map/parse_map.c \
+	src/get_map/validate_map_contents.c \
+	src/get_map/validate_map_playable.c \
+	src/get_map/flood_fill.c \
+	src/common.c \
+	src/window_mlx.c
+TEST_HOOKS_BIN = $(TEST_DIR)/itest_hooks
 
 ###############################################################################
 #                              DEFAULT RULES                                  #
@@ -300,6 +314,18 @@ test_i_fsanrender: $(TEST_RENDER_BIN) $(LIBFT_LIB) $(MLX_LIB)
 	@echo "$(GREEN)Tests fsanitize render module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
 
 
+#
+## 3) integration-test) hooks
+##
+$(TEST_HOOKS_BIN): $(TEST_HOOKS_SRCS) $(LIBFT_LIB) $(MLX_LIB)
+	$(CC) $(FLAGS) $(INCLUDES) $(TEST_HOOKS_SRCS) $(LIBS) -o $(TEST_HOOKS_BIN)
+
+test_i_hooks: $(TEST_HOOKS_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	@echo "$(YELLOW)Running integration tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_HOOKS_BIN)
+	@echo "$(GREEN)Integration tests for hooks module passed!$(CLR_RMV)"
+
+
 ###############################################################################
 #                              CI-LIKE PIPELINE                               #
 ###############################################################################
@@ -350,6 +376,7 @@ fclean: clean
 	$(SILENT)rm -rf $(TEST_COMMON_BIN)
 	$(SILENT)rm -rf $(TEST_HELLO_WORLD_BIN)
 	$(SILENT)rm -rf $(TEST_RENDER_BIN)
+	$(SILENT)rm -rf $(TEST_HOOKS_BIN)
 
 re: fclean all
 

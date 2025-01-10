@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saalarco <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:53:36 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/10 11:53:38 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:47:16 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/include/libft.h"
-#include "hooks_mlx.h"
+# include "hooks_mlx.h"
 
 # define ERROR "Error\n"
 # define ERROR_ARGUMENT "Argument is not valid for the game"

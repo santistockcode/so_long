@@ -2,6 +2,7 @@
     "files.associations": {
         "so_long.h": "c",
         "window.h": "c",
-        "get_map.h": "c"
+        "get_map.h": "c",
+        "window_mlx.h": "c"
     }
 }

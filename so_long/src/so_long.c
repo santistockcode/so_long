@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:15:16 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/09 13:03:52 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:41:05 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_game 			*game;
+	t_game			*game;
 	t_parsed_map	*map;
 	mlx_t			*mlx;
 
@@ -29,12 +29,13 @@ int	main(int argc, char **argv)
 		free_parsed_map(map);
 		ft_error(ERROR_MALLOC);
 	}
+	game->p_x = map->player_start.x;
+	game->p_y = map->player_start.y;
+	game->c_left = map->num_collectables;
 	display_graphics(game, mlx, map);
+	mlx_key_hook(mlx, &key_handle, game);
+	mlx_loop_hook(game->mlx, &print_movements_handle, game);
+	mlx_close_hook(game->mlx, &window_exit_handle, game);
 	mlx_loop(game->mlx);
-
-	free_images_textures(game);
-	free_parsed_map(map);
-	close_window(game->mlx);
-	free(game);
 	return (1);
 }
