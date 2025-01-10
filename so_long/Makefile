@@ -6,7 +6,7 @@
 #    By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 17:50:16 by saalarco          #+#    #+#              #
-#    Updated: 2025/01/09 17:05:01 by saalarco         ###   ########.fr        #
+#    Updated: 2025/01/10 12:06:43 by saalarco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ SRCS		= src/so_long.c \
 	src/get_map/validate_map_playable.c \
 	src/get_map/flood_fill.c \
 	src/common.c \
-	src/window.c \
+	src/window_mlx.c \
 	src/display_mlx.c \
 	src/render/images_textures.c \
 	src/render/images_textures_utils.c
@@ -83,14 +83,14 @@ TEST_GET_MAP_SRCS  	= $(TEST_DIR)/test_get_map.c \
 	src/get_map/flood_fill.c
 TEST_GET_MAP_BIN     = $(TEST_DIR)/tests_get_map
 
-TEST_WINDOW_SRCS	= $(TEST_DIR)/test_window.c \
+TEST_WINDOW_SRCS	= $(TEST_DIR)/itest_window.c \
 	src/get_map/free_parsed_map.c \
 	src/get_map/parse_map.c \
 	src/get_map/validate_map_contents.c \
 	src/get_map/validate_map_playable.c \
 	src/get_map/flood_fill.c \
 	src/common.c \
-	src/window.c
+	src/window_mlx.c
 TEST_WINDOW_BIN		= $(TEST_DIR)/tests_window
 
 TEST_COMMON_SRCS	= $(TEST_DIR)/test_common.c
@@ -99,7 +99,7 @@ TEST_COMMON_BIN		= $(TEST_DIR)/tests_common
 TEST_HELLO_WORLD_SRCS = $(TEST_DIR)/test_hello_world.c 
 TEST_HELLO_WORLD_BIN = $(TEST_DIR)/tests_hello_world
 
-TEST_RENDER_SRCS = $(TEST_DIR)/integrate_render.c \
+TEST_RENDER_SRCS = $(TEST_DIR)/itest_render.c \
 	src/argument_valid.c \
 	src/get_map/free_parsed_map.c \
 	src/get_map/parse_map.c \
@@ -107,8 +107,8 @@ TEST_RENDER_SRCS = $(TEST_DIR)/integrate_render.c \
 	src/get_map/validate_map_playable.c \
 	src/get_map/flood_fill.c \
 	src/common.c \
-	src/window.c
-TEST_RENDER_BIN = $(TEST_DIR)/integrate_render
+	src/window_mlx.c
+TEST_RENDER_BIN = $(TEST_DIR)/itest_render
 
 ###############################################################################
 #                              DEFAULT RULES                                  #
@@ -181,46 +181,9 @@ tlldb_get_map : $(TEST_GET_MAP_BIN) $(LIBFT_LIB)
 	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
 	lldb ./$(TEST_GET_MAP_BIN)
 
-##
-## 2) window module tests
-##
-test_window: $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
-	@echo "$(YELLOW)Running test_window tests...$(CLR_RMV)"
-	$(SILENT)@./$(TEST_WINDOW_BIN)
-	@echo "$(GREEN)Unit tests for window module passed!$(CLR_RMV)"
-
-$(TEST_WINDOW_BIN): $(TEST_WINDOW_SRCS)
-	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
-
-tval_window: $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
-	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
-	@echo "$(YELLOW)Running valgrind test_window tests...$(CLR_RMV)"
-	$(SILENT)@valgrind  --leak-check=full \
-			--show-leak-kinds=definite \
-			--suppressions=mlx_dl.supp \
-			--log-file=tests/valgrind_window.log \
-			./$(TEST_WINDOW_BIN)
-	@echo "$(YELLOW)Checking Valgrind log for definitely lost leaks...$(CLR_RMV)"
-	# Parse the log to see if “definitely lost” is non-zero.
-	$(SILENT)@grep -q "definitely lost: 0 bytes in 0 blocks" tests/valgrind_window.log && \
-		echo "$(GREEN)No definite leaks found!$(CLR_RMV)" || \
-		( echo "$(RED)Definite leaks found! Check tests/valgrind_window.log$(CLR_RMV)" ; exit 1 )
-
-	@echo "$(BLUE)Valgrind test for window module complete!$(CLR_RMV)"
-
-tfsanitize_window: $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
-	$(SILENT)$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
-	@echo "$(YELLOW)Running fsanitize test_window tests...$(CLR_RMV)"
-	$(SILENT)@./$(TEST_WINDOW_BIN)
-	@echo "$(GREEN)Tests fsanitize window module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
-
-tlldb_window : $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
-	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
-	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
-	lldb ./$(TEST_WINDOW_BIN)
 
 ##
-## 3) common module tests
+## 2) common module tests
 ##
 test_common: $(TEST_COMMON_BIN) $(LIBFT_LIB) $(MLX_LIB)
 	@echo "$(YELLOW)Running common tests...$(CLR_RMV)"
@@ -265,6 +228,43 @@ tval_hello_world: $(TEST_HELLO_WORLD_BIN) $(LIBFT_LIB) $(MLX_LIB)
 		echo "$(GREEN)No definite leaks found!$(CLR_RMV)" || \
 		( echo "$(RED)Definite leaks found! Check tests/valgrind_hello_world.log$(CLR_RMV)" ; exit 1 )
 
+##
+## integration-test) window
+##
+test_i_window: $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	@echo "$(YELLOW)Running test_window tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_WINDOW_BIN)
+	@echo "$(GREEN)Unit tests for window module passed!$(CLR_RMV)"
+
+$(TEST_WINDOW_BIN): $(TEST_WINDOW_SRCS)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
+
+tval_i_window: $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
+	@echo "$(YELLOW)Running valgrind test_window tests...$(CLR_RMV)"
+	$(SILENT)@valgrind  --leak-check=full \
+			--show-leak-kinds=definite \
+			--suppressions=mlx_dl.supp \
+			--log-file=tests/valgrind_window.log \
+			./$(TEST_WINDOW_BIN)
+	@echo "$(YELLOW)Checking Valgrind log for definitely lost leaks...$(CLR_RMV)"
+	# Parse the log to see if “definitely lost” is non-zero.
+	$(SILENT)@grep -q "definitely lost: 0 bytes in 0 blocks" tests/valgrind_window.log && \
+		echo "$(GREEN)No definite leaks found!$(CLR_RMV)" || \
+		( echo "$(RED)Definite leaks found! Check tests/valgrind_window.log$(CLR_RMV)" ; exit 1 )
+
+	@echo "$(BLUE)Valgrind test for window module complete!$(CLR_RMV)"
+
+tfsanitize_i_window: $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(SILENT)$(CC) $(FLAGS) -fsanitize=address $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
+	@echo "$(YELLOW)Running fsanitize test_window tests...$(CLR_RMV)"
+	$(SILENT)@./$(TEST_WINDOW_BIN)
+	@echo "$(GREEN)Tests fsanitize window module passed! $(CLR_RMV)$(BLUE)...but you better check the output$(CLR_RMV)"
+
+tlldb_i_window : $(TEST_WINDOW_BIN) $(LIBFT_LIB) $(MLX_LIB)
+	$(CC) $(FLAGS) -g $(INCLUDES) $(TEST_WINDOW_SRCS) $(LIBS) -o $(TEST_WINDOW_BIN)
+	@echo "$(YELLOW)Running tests...$(CLR_RMV)"
+	lldb ./$(TEST_WINDOW_BIN)
 	@echo "$(BLUE)Valgrind test for window module complete!$(CLR_RMV)"
 
 ##
@@ -316,15 +316,6 @@ ci: fclean $(LIBFT_LIB) $(MLX_LIB)
 
 	@echo "==> Module FSanitize tests for get_map..."
 	$(SILENT)$(MAKE) tfsanitize_get_map
-
-	@echo "==> Module window tests..."
-	$(SILENT)$(MAKE) test_window
-
-	@echo "==> Module Valgrind window tests..."
-	$(SILENT)$(MAKE) tval_window
-
-	@echo "==> Module FSanitize window tests..."
-	$(SILENT)$(MAKE) tfsanitize_window
 
 	@echo "==> Module common tests..."
 	$(SILENT)$(MAKE) test_common

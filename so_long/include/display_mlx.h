@@ -1,7 +1,19 @@
-#ifndef RENDER_H
-#define RENDER_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display_mlx.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/10 11:53:55 by saalarco          #+#    #+#             */
+/*   Updated: 2025/01/10 11:54:20 by saalarco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef DISPLAY_H
+#define DISPLAY_H
 # include "../MLX42/include/MLX42/MLX42.h"
-#include "game.h"
+#include "hooks_mlx.h"
 #include <stdio.h>
 #include <stdlib.h>
 
