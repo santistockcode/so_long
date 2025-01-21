@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:56:36 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/10 17:49:31 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:49:12 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_game
 }					t_game;
 
 void				end_game(t_game *game);
+void				window_exit_handle(void *ptr);
 
 // Function to update position of player
 void				move_player(t_game *game, int dx, int dy);

@@ -6,7 +6,7 @@
 /*   By: saalarco <saalarco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 18:47:00 by saalarco          #+#    #+#             */
-/*   Updated: 2025/01/10 17:49:23 by saalarco         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:11:38 by saalarco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,4 @@ void	print_movements_handle(void *ptr)
 	ft_putstr_fd(YELLOW, STDOUT_FILENO);
 	ft_printf("Movements: %d\r", p->movements);
 	ft_putstr_fd(NORMAL, STDOUT_FILENO);
-}
-
-/*
-Function to manage window exit pressing x
-*/
-void	window_exit_handle(void *ptr)
-{
-	t_game	*game;
-
-	game = (t_game *)ptr;
-	ft_putstr_fd(MAGNENTA, STDOUT_FILENO);
-	ft_printf("So long, farewell, thanks lucak.itch.io/glitchy-pixel-art\n");
-	ft_putstr_fd(NORMAL, STDOUT_FILENO);
-	free_images_textures(game);
-	free_parsed_map(game->map);
-	close_window(game->mlx);
-	free(game);
-	exit(EXIT_SUCCESS);
 }
